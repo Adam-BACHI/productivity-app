@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
-class TaskComp extends StatefulWidget {
-  const TaskComp({super.key});
+class TaskComp extends StatelessWidget {
+  final String taskName;
+  final String category;
+  final String deadline;
 
-  @override
-  State<TaskComp> createState() => _TaskCompState();
-}
+  const TaskComp(
+      {super.key,
+      required this.taskName,
+      required this.category,
+      required this.deadline});
 
-class _TaskCompState extends State<TaskComp> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -20,7 +23,7 @@ class _TaskCompState extends State<TaskComp> {
             borderRadius: BorderRadius.circular(15),
             color: Color.fromARGB(255, 34, 40, 49),
           ),
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
@@ -32,7 +35,7 @@ class _TaskCompState extends State<TaskComp> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Task Name',
+                          taskName,
                           style: TextStyle(
                               fontFamily: 'Open',
                               fontSize: 26,
@@ -40,7 +43,7 @@ class _TaskCompState extends State<TaskComp> {
                               color: Color.fromARGB(255, 253, 253, 252)),
                         ),
                         Text(
-                          'Folder',
+                          category,
                           style: TextStyle(
                               fontSize: 13,
                               fontFamily: 'Open',
@@ -54,7 +57,7 @@ class _TaskCompState extends State<TaskComp> {
                         Padding(
                           padding: EdgeInsets.only(bottom: 5),
                           child: Text(
-                            'dd/dd/dddd',
+                            deadline,
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 13,

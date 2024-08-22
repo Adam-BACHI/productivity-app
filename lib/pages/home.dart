@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/comps/ProgressTracker.dart';
 import 'package:productivity_app/comps/TaskComp.dart';
+import 'package:productivity_app/comps/newTask.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,6 +11,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List ToDoList = [
+    ["exercie", "health", "24/08/2024"],
+    ["drink water", "health", "24/08/2024"],
+    ["revise", "study", "24/08/2024"],
+    ["revise", "study", "24/08/2024"],
+  ];
+
+  void createTask() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return NewTask();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +63,17 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          TaskComp(),
-          TaskComp(),
-          TaskComp(),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return TaskComp(
+                    taskName: ToDoList[ToDoList.length - 1 - index][0],
+                    category: ToDoList[ToDoList.length - 1 - index][1],
+                    deadline: ToDoList[ToDoList.length - 1 - index][2]);
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 40, top: 10),
             child: GestureDetector(
@@ -77,8 +102,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 34, 40, 49),
-        onPressed: () {},
-        tooltip: 'Increment',
+        onPressed: createTask,
         child: Icon(
           Icons.add,
           color: Color.fromARGB(255, 0, 184, 169),
