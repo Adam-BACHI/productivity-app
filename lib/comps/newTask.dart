@@ -5,6 +5,7 @@ class NewTask extends StatefulWidget {
   final VoidCallback save;
   final VoidCallback cancel;
   final ValueChanged<String> onDropValueChanged;
+  final ValueChanged onDateSelection;
 
   NewTask({
     super.key,
@@ -12,6 +13,7 @@ class NewTask extends StatefulWidget {
     required this.save,
     required this.cancel,
     required this.onDropValueChanged,
+    required this.onDateSelection,
   });
 
   @override
@@ -33,6 +35,7 @@ class _NewTaskState extends State<NewTask> {
       setState(() {
         date = selectedDate!;
       });
+      widget.onDateSelection(date);
     });
   } // Set this to a value that exists in the DropdownMenuItem list
 

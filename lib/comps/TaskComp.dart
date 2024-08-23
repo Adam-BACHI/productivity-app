@@ -21,13 +21,13 @@ class TaskComp extends StatelessWidget {
           height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: Color.fromARGB(255, 34, 40, 49),
+            color: const Color.fromARGB(255, 34, 40, 49),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 5),
+                padding: const EdgeInsets.only(top: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -36,7 +36,7 @@ class TaskComp extends StatelessWidget {
                       children: [
                         Text(
                           taskName,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: 'Open',
                               fontSize: 26,
                               fontWeight: FontWeight.w600,
@@ -44,7 +44,7 @@ class TaskComp extends StatelessWidget {
                         ),
                         Text(
                           category,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 13,
                               fontFamily: 'Open',
                               color: Color.fromARGB(255, 253, 253, 252)),
@@ -54,20 +54,17 @@ class TaskComp extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            date.toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              fontFamily: 'Open',
-                              color: Color.fromARGB(255, 188, 196, 207),
-                            ),
+                        Text(
+                          '${date.day} - ${date.month} - ${date.year}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                            fontFamily: 'Open',
+                            color: Color.fromARGB(255, 188, 196, 207),
                           ),
                         ),
                         Text(
-                          '2 jours restants',
+                          '${date.difference(DateTime.now()).inDays}  jours restants',
                           style: TextStyle(
                             fontFamily: 'Open',
                             fontWeight: FontWeight.w400,
@@ -80,8 +77,9 @@ class TaskComp extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                  padding: EdgeInsets.only(top: 10, left: 25),
+              const Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10),
                   child: SizedBox(
                       height: 10.0,
                       width: 200.0,
@@ -91,7 +89,9 @@ class TaskComp extends StatelessWidget {
                         backgroundColor: Color.fromARGB(255, 50, 60, 72),
                         value: 0.5,
                         borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ))),
+                      )),
+                ),
+              ),
             ],
           ),
         ),

@@ -16,20 +16,22 @@ class _HomePageState extends State<HomePage> {
     ["exercie", "health", DateTime.now()],
     ["drink water", "health", DateTime.now()],
     ["revise", "study", DateTime.now()],
-    ["revise", "study", DateTime.now()],
   ];
 
   String _dropValue = "categorie";
+  DateTime _date = DateTime.now();
 
   void _save() {
     setState(() {
-      ToDoList.add([_controller.text, _dropValue, DateTime.now()]);
+      ToDoList.add([_controller.text, _dropValue, _date]);
     });
     Navigator.of(context).pop();
+    _controller.clear();
   }
 
   void _cancel() {
     Navigator.of(context).pop();
+    _controller.clear();
   }
 
   void createTask() {
@@ -43,6 +45,11 @@ class _HomePageState extends State<HomePage> {
           onDropValueChanged: (newValue) {
             setState(() {
               _dropValue = newValue;
+            });
+          },
+          onDateSelection: (date) {
+            setState(() {
+              _date = date;
             });
           },
         );
