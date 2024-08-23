@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class TaskComp extends StatelessWidget {
   final String taskName;
   final String category;
-  final String deadline;
+  final DateTime date;
 
   const TaskComp(
       {super.key,
       required this.taskName,
       required this.category,
-      required this.deadline});
+      required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class TaskComp extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(bottom: 5),
                           child: Text(
-                            deadline,
+                            date.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 13,

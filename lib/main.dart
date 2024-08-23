@@ -15,6 +15,7 @@ class ProdApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Loading(),
+      theme: ThemeData(primarySwatch: Colors.teal, brightness: Brightness.dark),
       routes: {
         '/welcomepage': (context) => const Welcome(),
       },

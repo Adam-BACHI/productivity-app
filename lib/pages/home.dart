@@ -11,18 +11,41 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _controller = TextEditingController();
   List ToDoList = [
-    ["exercie", "health", "24/08/2024"],
-    ["drink water", "health", "24/08/2024"],
-    ["revise", "study", "24/08/2024"],
-    ["revise", "study", "24/08/2024"],
+    ["exercie", "health", DateTime.now()],
+    ["drink water", "health", DateTime.now()],
+    ["revise", "study", DateTime.now()],
+    ["revise", "study", DateTime.now()],
   ];
+
+  String _dropValue = "categorie";
+
+  void _save() {
+    setState(() {
+      ToDoList.add([_controller.text, _dropValue, DateTime.now()]);
+    });
+    Navigator.of(context).pop();
+  }
+
+  void _cancel() {
+    Navigator.of(context).pop();
+  }
 
   void createTask() {
     showDialog(
       context: context,
       builder: (context) {
-        return NewTask();
+        return NewTask(
+          controller: _controller,
+          save: _save,
+          cancel: _cancel,
+          onDropValueChanged: (newValue) {
+            setState(() {
+              _dropValue = newValue;
+            });
+          },
+        );
       },
     );
   }
@@ -65,12 +88,12 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: 3,
+              itemCount: ToDoList.length,
               itemBuilder: (context, index) {
                 return TaskComp(
                     taskName: ToDoList[ToDoList.length - 1 - index][0],
                     category: ToDoList[ToDoList.length - 1 - index][1],
-                    deadline: ToDoList[ToDoList.length - 1 - index][2]);
+                    date: ToDoList[ToDoList.length - 1 - index][2]);
               },
             ),
           ),
