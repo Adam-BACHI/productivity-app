@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/pages/Loading.dart';
+import 'package:productivity_app/pages/TaskCategories.dart';
 import 'package:productivity_app/pages/welcome.dart';
 
 void main() {
@@ -18,6 +19,7 @@ class ProdApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.teal, brightness: Brightness.dark),
       routes: {
         '/welcomepage': (context) => const Welcome(),
+        '/taskcat': (context) => const TaskCat()
       },
     );
   }

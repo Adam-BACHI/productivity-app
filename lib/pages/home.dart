@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/comps/ProgressTracker.dart';
 import 'package:productivity_app/comps/TaskComp.dart';
 import 'package:productivity_app/comps/newTask.dart';
+import 'package:productivity_app/pages/TaskCategories.dart';
+import 'package:productivity_app/dataBase/TaskList.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,11 +14,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _controller = TextEditingController();
-  List ToDoList = [
-    ["exercie", "health", DateTime.now(), 0.0],
-    ["drink water", "health", DateTime.now(), 0.0],
-    ["revise", "study", DateTime.now(), 0.0],
-  ];
 
   void progressChanged(double value, int ind) {
     setState(() {
@@ -101,6 +98,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: ListView.builder(
+              padding: EdgeInsets.only(top: 10),
               itemCount: ToDoList.length,
               itemBuilder: (context, index) {
                 return TaskComp(
@@ -157,7 +155,11 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return TaskCat();
+                  }));
+                },
                 icon: Icon(
                   Icons.folder,
                   color: Color.fromARGB(255, 34, 40, 49),
@@ -175,7 +177,11 @@ class _HomePageState extends State<HomePage> {
                   color: Color.fromARGB(255, 34, 40, 49),
                 )),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return HomePage();
+                  }));
+                },
                 icon: Icon(
                   Icons.person,
                   color: Color.fromARGB(255, 34, 40, 49),
