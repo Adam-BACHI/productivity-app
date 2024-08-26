@@ -13,17 +13,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _controller = TextEditingController();
   List ToDoList = [
-    ["exercie", "health", DateTime.now()],
-    ["drink water", "health", DateTime.now()],
-    ["revise", "study", DateTime.now()],
+    ["exercie", "health", DateTime.now(), 0.0],
+    ["drink water", "health", DateTime.now(), 0.0],
+    ["revise", "study", DateTime.now(), 0.0],
   ];
+
+  void progressChanged(double value, int ind) {
+    setState(() {
+      ToDoList[ToDoList.length - ind - 1][3] = value;
+    });
+  }
 
   String _dropValue = "categorie";
   DateTime _date = DateTime.now();
 
   void _save() {
     setState(() {
-      ToDoList.add([_controller.text, _dropValue, _date]);
+      ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
     });
     Navigator.of(context).pop();
     _controller.clear();
@@ -98,9 +104,14 @@ class _HomePageState extends State<HomePage> {
               itemCount: ToDoList.length,
               itemBuilder: (context, index) {
                 return TaskComp(
-                    taskName: ToDoList[ToDoList.length - 1 - index][0],
-                    category: ToDoList[ToDoList.length - 1 - index][1],
-                    date: ToDoList[ToDoList.length - 1 - index][2]);
+                  taskName: ToDoList[ToDoList.length - index - 1][0],
+                  category: ToDoList[ToDoList.length - index - 1][1],
+                  date: ToDoList[ToDoList.length - index - 1][2],
+                  progress: ToDoList[ToDoList.length - index - 1][3],
+                  onProgressChanged: (pro) {
+                    progressChanged(pro, index);
+                  },
+                );
               },
             ),
           ),

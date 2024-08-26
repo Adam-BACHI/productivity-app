@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 
-class TaskComp extends StatelessWidget {
+class TaskComp extends StatefulWidget {
   final String taskName;
   final String category;
   final DateTime date;
+  final ValueChanged onProgressChanged;
+  final double progress;
 
-  const TaskComp(
-      {super.key,
-      required this.taskName,
-      required this.category,
-      required this.date});
+  const TaskComp({
+    super.key,
+    required this.taskName,
+    required this.category,
+    required this.date,
+    required this.onProgressChanged,
+    required this.progress,
+  });
 
+  @override
+  State<TaskComp> createState() => _TaskCompState();
+}
+
+class _TaskCompState extends State<TaskComp> {
+  //double progress = 0.0;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -35,7 +46,7 @@ class TaskComp extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          taskName,
+                          widget.taskName,
                           style: const TextStyle(
                               fontFamily: 'Open',
                               fontSize: 26,
@@ -43,7 +54,7 @@ class TaskComp extends StatelessWidget {
                               color: Color.fromARGB(255, 253, 253, 252)),
                         ),
                         Text(
-                          category,
+                          widget.category,
                           style: const TextStyle(
                               fontSize: 13,
                               fontFamily: 'Open',
@@ -55,7 +66,7 @@ class TaskComp extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${date.day} - ${date.month} - ${date.year}',
+                          '${widget.date.day} - ${widget.date.month} - ${widget.date.year}',
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 13,
@@ -64,7 +75,7 @@ class TaskComp extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${date.difference(DateTime.now()).inDays}  jours restants',
+                          '${widget.date.difference(DateTime.now()).inDays}  jours restants',
                           style: TextStyle(
                             fontFamily: 'Open',
                             fontWeight: FontWeight.w400,
@@ -77,21 +88,31 @@ class TaskComp extends StatelessWidget {
                   ],
                 ),
               ),
-              const Center(
+              Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.only(top: 10),
                   child: SizedBox(
                       height: 10.0,
-                      width: 200.0,
-                      child: LinearProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(
-                            Color.fromARGB(255, 255, 222, 125)),
-                        backgroundColor: Color.fromARGB(255, 50, 60, 72),
-                        value: 0.5,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      )),
+                      width: 300.0,
+                      child: Slider(
+                          value: widget.progress,
+                          min: 0,
+                          max: 100,
+                          onChanged: (value) {
+                            setState(() {
+                              widget.onProgressChanged(value);
+                            });
+                          },
+                          inactiveColor: Color.fromARGB(255, 50, 60, 72),
+                          activeColor: widget.progress < 25
+                              ? Color.fromARGB(255, 246, 65, 108)
+                              : widget.progress < 50
+                                  ? Color.fromARGB(255, 255, 160, 45)
+                                  : widget.progress < 75
+                                      ? Color.fromARGB(255, 255, 222, 125)
+                                      : Color.fromARGB(255, 104, 217, 195))),
                 ),
-              ),
+              )
             ],
           ),
         ),
