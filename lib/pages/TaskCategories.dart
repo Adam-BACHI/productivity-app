@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/comps/TaskComp.dart';
+import 'package:productivity_app/comps/newCat.dart';
 import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 import 'package:productivity_app/pages/home.dart';
@@ -14,23 +15,16 @@ class TaskCat extends StatefulWidget {
 class _TaskCatState extends State<TaskCat> {
   void progressChanged(double value, int ind) {
     setState(() {
-      ToDoList[ToDoList.length - ind - 1][3] = value;
+      ToDoList[ind][3] = value;
     });
   }
-
-  List categories = [
-    'categorie',
-    'two',
-    'three',
-    'study',
-    'health',
-  ];
 
   List selectedCat = [];
 
   String _dropValue = "categorie";
   DateTime _date = DateTime.now();
   final _controller = TextEditingController();
+  final _controllerCat = TextEditingController();
 
   void _save() {
     setState(() {
@@ -43,6 +37,20 @@ class _TaskCatState extends State<TaskCat> {
   void _cancel() {
     Navigator.of(context).pop();
     _controller.clear();
+  }
+
+  void _saveCat() {
+    setState(() {
+      categories.add(_controllerCat.text);
+    });
+
+    Navigator.of(context).pop();
+    _controllerCat.clear();
+  }
+
+  void _cancelCat() {
+    Navigator.of(context).pop();
+    _controllerCat.clear();
   }
 
   void createTask() {
@@ -68,10 +76,25 @@ class _TaskCatState extends State<TaskCat> {
     );
   }
 
+  void createCat() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return NewCat(
+              controller: _controllerCat, save: _saveCat, cancel: _cancelCat);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final filteredTasks = ToDoList.where((task) {
-      return selectedCat.isEmpty || selectedCat.contains(task[1]);
+    List<int> filteredIndexes = [];
+
+    List filteredTasks = ToDoList.where((task) {
+      final match = selectedCat.isEmpty || selectedCat.contains(task[1]);
+      if (match) {
+        filteredIndexes.add(ToDoList.indexOf(task));
+      }
+      return match;
     }).toList();
 
     double ProgressCount() {
@@ -120,35 +143,48 @@ class _TaskCatState extends State<TaskCat> {
               height: 50,
               margin: EdgeInsets.only(left: 21),
               child: ListView.builder(
-                itemCount: categories.length,
+                itemCount: categories.length + 1,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FilterChip(
-                          selectedColor: Color.fromARGB(255, 0, 184, 169),
-                          backgroundColor: Color.fromARGB(255, 34, 40, 49),
-                          checkmarkColor: Color.fromARGB(255, 252, 252, 253),
-                          labelStyle: TextStyle(
-                              color: Color.fromARGB(255, 252, 252, 253),
-                              fontFamily: 'Open'),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: BorderSide(
-                                color: Color.fromARGB(255, 0, 184, 169),
-                                width: 1.0,
-                              )),
-                          label: Text(categories[index]),
-                          selected: selectedCat.contains(categories[index]),
-                          onSelected: (selected) {
-                            setState(() {
-                              if (selected) {
-                                selectedCat.add(categories[index]);
-                              } else {
-                                selectedCat.remove(categories[index]);
-                              }
-                            });
-                          }));
+                  if (index == categories.length) {
+                    return Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: MaterialButton(
+                        onPressed: createCat,
+                        color: const Color.fromARGB(255, 0, 184, 169),
+                        child: Icon(Icons.add),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    );
+                  } else {
+                    return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FilterChip(
+                            selectedColor: Color.fromARGB(255, 0, 184, 169),
+                            backgroundColor: Color.fromARGB(255, 34, 40, 49),
+                            checkmarkColor: Color.fromARGB(255, 252, 252, 253),
+                            labelStyle: TextStyle(
+                                color: Color.fromARGB(255, 252, 252, 253),
+                                fontFamily: 'Open'),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: BorderSide(
+                                  color: Color.fromARGB(255, 0, 184, 169),
+                                  width: 1.0,
+                                )),
+                            label: Text(categories[index]),
+                            selected: selectedCat.contains(categories[index]),
+                            onSelected: (selected) {
+                              setState(() {
+                                if (selected) {
+                                  selectedCat.add(categories[index]);
+                                } else {
+                                  selectedCat.remove(categories[index]);
+                                }
+                              });
+                            }));
+                  }
                 },
               ),
             ),
@@ -157,7 +193,7 @@ class _TaskCatState extends State<TaskCat> {
             padding: const EdgeInsets.only(top: 15),
             child: Center(
                 child: Text(
-              'Votre progres est de: ${ProgressCount().toStringAsFixed(2)}',
+              'Votre progres est de: ${ProgressCount().toStringAsFixed(2)}%',
               style: TextStyle(
                   fontSize: 20,
                   fontFamily: 'Open',
@@ -168,29 +204,17 @@ class _TaskCatState extends State<TaskCat> {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.only(top: 10),
-              itemCount: ToDoList.where((task) {
-                return selectedCat.isEmpty || selectedCat.contains(task[1]);
-              }).length,
+              itemCount: filteredTasks.length,
               itemBuilder: (context, index) {
-                ToDoList = ToDoList.reversed.toList();
+                String TaskName = filteredTasks[index][0];
 
-                String TaskName = ToDoList.where((task) {
-                  return selectedCat.isEmpty || selectedCat.contains(task[1]);
-                }).elementAt(index)[0];
+                String Category = filteredTasks[index][1];
 
-                String Category = ToDoList.where((task) {
-                  return selectedCat.isEmpty || selectedCat.contains(task[1]);
-                }).elementAt(index)[1];
+                DateTime Date = filteredTasks[index][2];
 
-                DateTime Date = ToDoList.where((task) {
-                  return selectedCat.isEmpty || selectedCat.contains(task[1]);
-                }).elementAt(index)[2];
+                double Progress = filteredTasks[index][3];
 
-                double Progress = ToDoList.where((task) {
-                  return selectedCat.isEmpty || selectedCat.contains(task[1]);
-                }).elementAt(index)[3];
-
-                ToDoList = ToDoList.reversed.toList();
+                final mainIndex = filteredIndexes[index];
 
                 return TaskComp(
                   taskName: TaskName,
@@ -198,7 +222,7 @@ class _TaskCatState extends State<TaskCat> {
                   date: Date,
                   progress: Progress,
                   onProgressChanged: (pro) {
-                    progressChanged(pro, index);
+                    progressChanged(pro, mainIndex);
                   },
                 );
               },

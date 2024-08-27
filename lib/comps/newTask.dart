@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/dataBase/TaskList.dart';
 
 class NewTask extends StatefulWidget {
   final controller;
@@ -60,34 +61,25 @@ class _NewTaskState extends State<NewTask> {
             Padding(
               padding: const EdgeInsets.only(left: 7),
               child: DropdownButton<String>(
-                value: dropValue,
-                icon: const Icon(
-                  Icons.arrow_downward,
-                ),
-                style: const TextStyle(color: Colors.white),
-                dropdownColor: const Color.fromARGB(255, 18, 26,
-                    39), // Optional: match dropdown color to dialog
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropValue = newValue!;
-                  });
-                  widget.onDropValueChanged(newValue!);
-                },
-                items: const [
-                  DropdownMenuItem(
-                    value: 'categorie',
-                    child: Text('categorie'),
+                  value: dropValue,
+                  icon: const Icon(
+                    Icons.arrow_downward,
                   ),
-                  DropdownMenuItem(
-                    value: 'two',
-                    child: Text('two'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'three',
-                    child: Text('three'),
-                  ),
-                ],
-              ),
+                  style: const TextStyle(color: Colors.white),
+                  dropdownColor: const Color.fromARGB(255, 18, 26,
+                      39), // Optional: match dropdown color to dialog
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropValue = newValue!;
+                    });
+                    widget.onDropValueChanged(newValue!);
+                  },
+                  items: categories.map((cat) {
+                    return DropdownMenuItem(
+                      child: Text(cat),
+                      value: cat,
+                    );
+                  }).toList()),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

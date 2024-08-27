@@ -3,3 +3,11 @@ List ToDoList = [
   ["drink water", "health", DateTime.now(), 0.0],
   ["revise", "study", DateTime.now(), 0.0],
 ];
+
+List<String> categories = [
+  'categorie',
+  'two',
+  'three',
+  'study',
+  'health',
+];
