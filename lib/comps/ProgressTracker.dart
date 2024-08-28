@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/comps/percentTask.dart';
+import 'package:productivity_app/dataBase/Categories.dart';
+import 'package:productivity_app/dataBase/TaskList.dart';
 
 class ProgressTracker extends StatefulWidget {
   const ProgressTracker({super.key});
@@ -9,17 +11,62 @@ class ProgressTracker extends StatefulWidget {
 }
 
 class _ProgressTrackerState extends State<ProgressTracker> {
+  int CatTrack = 0;
+
+  int stepBack(int num) {
+    if (num == 0) {
+      return categories.length - 1;
+    } else {
+      return num - 1;
+    }
+  }
+
+  int stepForward(int num) {
+    if (num == categories.length - 1) {
+      return 0;
+    } else {
+      return num + 1;
+    }
+  }
+
+  void displayNext() {
+    setState(() {
+      CatTrack = stepForward(CatTrack);
+    });
+  }
+
+  void displayPrev() {
+    setState(() {
+      CatTrack = stepBack(CatTrack);
+    });
+  }
+
+  double catPercent() {
+    String match = categories[CatTrack];
+    double sum = 0;
+    int cpt = 0;
+
+    for (var i = 0; i < ToDoList.length; i++) {
+      if (ToDoList[i][1] == match) {
+        cpt++;
+        sum = sum + ToDoList[i][3];
+      }
+    }
+
+    return cpt == 0 ? 0.0 : sum / cpt;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(top: 15),
+        padding: const EdgeInsets.only(bottom: 25),
         child: Container(
           width: 336,
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Votre progrès',
                 style: TextStyle(
                   fontFamily: 'Open',
@@ -39,7 +86,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            '60%',
+                            '${catPercent().toStringAsFixed(0)}%',
                             style: TextStyle(
                                 fontFamily: 'Open',
                                 fontSize: 30,
@@ -48,28 +95,34 @@ class _ProgressTrackerState extends State<ProgressTracker> {
                           ),
                           Row(
                             children: [
-                              Icon(
-                                Icons.arrow_left,
-                                color: Color.fromARGB(255, 252, 252, 253),
+                              GestureDetector(
+                                child: const Icon(
+                                  Icons.arrow_left,
+                                  color: Color.fromARGB(255, 252, 252, 253),
+                                ),
+                                onTap: displayPrev,
                               ),
                               Text(
-                                'toutes les taches',
+                                '${categories[CatTrack]}',
                                 style: TextStyle(
                                   fontSize: 9,
                                   fontFamily: 'Open',
                                   color: Color.fromARGB(255, 252, 252, 253),
                                 ),
                               ),
-                              Icon(
-                                Icons.arrow_right,
-                                color: Color.fromARGB(255, 252, 252, 253),
+                              GestureDetector(
+                                child: Icon(
+                                  Icons.arrow_right,
+                                  color: Color.fromARGB(255, 252, 252, 253),
+                                ),
+                                onTap: displayNext,
                               )
                             ],
                           )
                         ],
                       ),
                     ),
-                    Column(
+                    const Column(
                       children: [
                         percentTask(),
                         percentTask(),

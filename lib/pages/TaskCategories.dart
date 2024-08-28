@@ -3,6 +3,7 @@ import 'package:productivity_app/comps/TaskComp.dart';
 import 'package:productivity_app/comps/newCat.dart';
 import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
+import 'package:productivity_app/dataBase/Categories.dart';
 import 'package:productivity_app/pages/home.dart';
 
 class TaskCat extends StatefulWidget {
@@ -193,7 +194,7 @@ class _TaskCatState extends State<TaskCat> {
             padding: const EdgeInsets.only(top: 15),
             child: Center(
                 child: Text(
-              'Votre progres est de: ${ProgressCount().toStringAsFixed(2)}%',
+              'Votre progres est de: ${ProgressCount().toStringAsFixed(0)}%',
               style: TextStyle(
                   fontSize: 20,
                   fontFamily: 'Open',
