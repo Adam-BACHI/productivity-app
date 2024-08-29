@@ -60,6 +60,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void remove(int ind) {
+    final msg = SnackBar(
+      content: Text(
+        'vous devez laisser au moins 3 taches',
+      ),
+      duration: Duration(seconds: 3),
+    );
+    if (ToDoList.length == 3) {
+      ScaffoldMessenger.of(context).showSnackBar(msg);
+    } else {
+      setState(() {
+        ToDoList.removeAt(ToDoList.length - ind - 1);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                   onProgressChanged: (pro) {
                     progressChanged(pro, index);
                   },
+                  delTask: (context) => remove(index),
                 );
               },
             ),
@@ -116,7 +133,11 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.only(left: 40, bottom: 50),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return TaskCat();
+                }));
+              },
               child: const Row(
                 children: [
                   Text(
@@ -135,7 +156,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          ProgressTracker()
+          Padding(
+            padding: const EdgeInsets.only(bottom: 60),
+            child: ProgressTracker(),
+          )
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

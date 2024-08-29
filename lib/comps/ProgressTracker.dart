@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/comps/percentTask.dart';
 import 'package:productivity_app/dataBase/Categories.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
@@ -60,7 +59,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 25),
+        padding: const EdgeInsets.only(bottom: 0),
         child: Container(
           width: 336,
           child: Column(
@@ -76,58 +75,58 @@ class _ProgressTrackerState extends State<ProgressTracker> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(15.0),
+                padding: EdgeInsets.only(top: 50),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${catPercent().toStringAsFixed(0)}%',
-                            style: TextStyle(
-                                fontFamily: 'Open',
-                                fontSize: 30,
-                                color: Color.fromARGB(255, 252, 252, 253),
-                                fontWeight: FontWeight.w500),
-                          ),
-                          Row(
-                            children: [
-                              GestureDetector(
-                                child: const Icon(
-                                  Icons.arrow_left,
-                                  color: Color.fromARGB(255, 252, 252, 253),
-                                ),
-                                onTap: displayPrev,
-                              ),
-                              Text(
-                                '${categories[CatTrack]}',
-                                style: TextStyle(
-                                  fontSize: 9,
-                                  fontFamily: 'Open',
-                                  color: Color.fromARGB(255, 252, 252, 253),
-                                ),
-                              ),
-                              GestureDetector(
-                                child: Icon(
-                                  Icons.arrow_right,
-                                  color: Color.fromARGB(255, 252, 252, 253),
-                                ),
-                                onTap: displayNext,
-                              )
-                            ],
-                          )
-                        ],
+                    GestureDetector(
+                      child: const Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: Color.fromARGB(255, 252, 252, 253),
+                        size: 45,
                       ),
+                      onTap: displayPrev,
                     ),
-                    const Column(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        percentTask(),
-                        percentTask(),
-                        percentTask(),
+                        Text(
+                          '${catPercent().toStringAsFixed(0)}%',
+                          style: TextStyle(
+                              fontFamily: 'Open',
+                              fontSize: 30,
+                              color: catPercent() < 25
+                                  ? Color.fromARGB(255, 246, 65, 108)
+                                  : catPercent() < 50
+                                      ? Color.fromARGB(255, 255, 160, 45)
+                                      : catPercent() < 75
+                                          ? Color.fromARGB(255, 255, 222, 125)
+                                          : Color.fromARGB(255, 104, 217, 195),
+                              fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          '${categories[CatTrack]}',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Open',
+                            color: catPercent() < 25
+                                ? Color.fromARGB(255, 246, 65, 108)
+                                : catPercent() < 50
+                                    ? Color.fromARGB(255, 255, 160, 45)
+                                    : catPercent() < 75
+                                        ? Color.fromARGB(255, 255, 222, 125)
+                                        : Color.fromARGB(255, 104, 217, 195),
+                          ),
+                        ),
                       ],
+                    ),
+                    GestureDetector(
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Color.fromARGB(255, 252, 252, 253),
+                        size: 45,
+                      ),
+                      onTap: displayNext,
                     )
                   ],
                 ),

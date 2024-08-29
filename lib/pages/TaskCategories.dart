@@ -77,6 +77,22 @@ class _TaskCatState extends State<TaskCat> {
     );
   }
 
+  void remove(int ind) {
+    final msg = SnackBar(
+      content: Text(
+        'vous devez laisser au moins 3 taches',
+      ),
+      duration: Duration(seconds: 3),
+    );
+    if (ToDoList.length == 3) {
+      ScaffoldMessenger.of(context).showSnackBar(msg);
+    } else {
+      setState(() {
+        ToDoList.removeAt(ToDoList.length - ind - 1);
+      });
+    }
+  }
+
   void createCat() {
     showDialog(
         context: context,
@@ -225,6 +241,7 @@ class _TaskCatState extends State<TaskCat> {
                   onProgressChanged: (pro) {
                     progressChanged(pro, mainIndex);
                   },
+                  delTask: (context) => remove(index),
                 );
               },
             ),
