@@ -4,6 +4,7 @@ import 'package:productivity_app/comps/TaskComp.dart';
 import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/pages/TaskCategories.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
+import 'package:productivity_app/pages/weekBilan.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -195,7 +196,11 @@ class _HomePageState extends State<HomePage> {
                   color: Color.fromARGB(255, 34, 40, 49),
                 )),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Week();
+                  }));
+                },
                 icon: Icon(
                   Icons.calendar_month,
                   color: Color.fromARGB(255, 34, 40, 49),
