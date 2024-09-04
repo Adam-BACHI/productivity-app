@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/comps/dayTotal.dart';
 import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
-import 'package:productivity_app/pages/TaskCategories.dart';
-import 'package:productivity_app/pages/home.dart';
 
 class Week extends StatefulWidget {
   const Week({super.key});
@@ -13,6 +12,24 @@ class Week extends StatefulWidget {
 }
 
 class _WeekState extends State<Week> {
+  DataBase db = DataBase();
+  final _myBase = Hive.box("TaskBase");
+
+  @override
+  void initState() {
+    //if it's the first time the app is launched
+    //then crate Default list
+    if (_myBase.get("TODOLIST") == null) {
+      db.DefaultData();
+    } else {
+      db.LoadData();
+    }
+
+    db.UpdateData();
+
+    super.initState();
+  }
+
   final _controller = TextEditingController();
 
   String dateToWeek(DateTime date) {
@@ -54,8 +71,9 @@ class _WeekState extends State<Week> {
 
   void progressChanged(double value, int ind) {
     setState(() {
-      ToDoList[ToDoList.length - ind - 1][3] = value;
+      db.ToDoList[db.ToDoList.length - ind - 1][3] = value;
     });
+    db.UpdateData();
   }
 
   String _dropValue = "categorie";
@@ -63,15 +81,17 @@ class _WeekState extends State<Week> {
 
   void _save() {
     setState(() {
-      ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
+      db.ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
     });
     Navigator.of(context).pop();
     _controller.clear();
+    db.UpdateData();
   }
 
   void _cancel() {
     Navigator.of(context).pop();
     _controller.clear();
+    db.UpdateData();
   }
 
   void createTask() {
@@ -95,6 +115,7 @@ class _WeekState extends State<Week> {
         );
       },
     );
+    db.UpdateData();
   }
 
   @override
@@ -102,25 +123,8 @@ class _WeekState extends State<Week> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 18, 26, 39),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.asset(
-                'lib/images/LOGO-nav.png',
-                width: 90,
-              ),
-              const Icon(
-                Icons.menu,
-                size: 29,
-                color: Color.fromARGB(255, 0, 184, 169),
-              ),
-            ],
-          ),
-        ),
         const Padding(
-          padding: const EdgeInsets.only(top: 20, left: 20),
+          padding: const EdgeInsets.only(top: 80, left: 30),
           child: Text(
             'Bilan de la semaine',
             style: TextStyle(
@@ -138,7 +142,7 @@ class _WeekState extends State<Week> {
               itemCount: 7,
               itemBuilder: (context, i) {
                 return Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 15),
+                  padding: const EdgeInsets.only(left: 30, top: 15),
                   child: DayTotal(date: begOfWeek().add(Duration(days: i))),
                 );
               },
@@ -146,61 +150,6 @@ class _WeekState extends State<Week> {
           ),
         ),
       ]),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 34, 40, 49),
-        onPressed: createTask,
-        child: Icon(
-          Icons.add,
-          color: Color.fromARGB(255, 0, 184, 169),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        height: 70,
-        color: Color.fromARGB(255, 0, 184, 169),
-        shape: CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return TaskCat();
-                  }));
-                },
-                icon: Icon(
-                  Icons.folder,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                )),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.grid_3x3,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                )),
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Week();
-                  }));
-                },
-                icon: Icon(
-                  Icons.calendar_month,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                )),
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return HomePage();
-                  }));
-                },
-                icon: Icon(
-                  Icons.person,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                ))
-          ],
-        ),
-      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class DayTotal extends StatefulWidget {
@@ -10,6 +11,24 @@ class DayTotal extends StatefulWidget {
 }
 
 class _DayTotalState extends State<DayTotal> {
+  DataBase db = DataBase();
+  final _myBase = Hive.box("TaskBase");
+
+  @override
+  void initState() {
+    //if it's the first time the app is launched
+    //then crate Default list
+    if (_myBase.get("TODOLIST") == null) {
+      db.DefaultData();
+    } else {
+      db.LoadData();
+    }
+
+    db.UpdateData();
+
+    super.initState();
+  }
+
   String dateToWeek(DateTime date) {
     switch (date.weekday) {
       case 1:
@@ -36,11 +55,11 @@ class _DayTotalState extends State<DayTotal> {
     double sum = 0;
     int cpt = 0;
 
-    for (var i = 0; i < ToDoList.length; i++) {
-      if (ToDoList[i][2].day == day.day &&
-          ToDoList[i][2].month == day.month &&
-          ToDoList[i][2].year == day.year) {
-        sum = sum + ToDoList[i][3];
+    for (var i = 0; i < db.ToDoList.length; i++) {
+      if (db.ToDoList[i][2].day == day.day &&
+          db.ToDoList[i][2].month == day.month &&
+          db.ToDoList[i][2].year == day.year) {
+        sum = sum + db.ToDoList[i][3];
         cpt++;
       }
     }

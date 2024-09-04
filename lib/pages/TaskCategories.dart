@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/comps/TaskComp.dart';
 import 'package:productivity_app/comps/newCat.dart';
 import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 import 'package:productivity_app/dataBase/Categories.dart';
-import 'package:productivity_app/pages/home.dart';
 
 class TaskCat extends StatefulWidget {
   const TaskCat({super.key});
@@ -14,9 +14,27 @@ class TaskCat extends StatefulWidget {
 }
 
 class _TaskCatState extends State<TaskCat> {
+  DataBase db = DataBase();
+  final _myBase = Hive.box("TaskBase");
+
+  @override
+  void initState() {
+    //if it's the first time the app is launched
+    //then crate Default list
+    if (_myBase.get("TODOLIST") == null) {
+      db.DefaultData();
+    } else {
+      db.LoadData();
+    }
+
+    db.UpdateData();
+
+    super.initState();
+  }
+
   void progressChanged(double value, int ind) {
     setState(() {
-      ToDoList[ind][3] = value;
+      db.ToDoList[ind][3] = value;
     });
   }
 
@@ -29,15 +47,17 @@ class _TaskCatState extends State<TaskCat> {
 
   void _save() {
     setState(() {
-      ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
+      db.ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
     });
     Navigator.of(context).pop();
     _controller.clear();
+    db.UpdateData();
   }
 
   void _cancel() {
     Navigator.of(context).pop();
     _controller.clear();
+    db.UpdateData();
   }
 
   void _saveCat() {
@@ -47,11 +67,13 @@ class _TaskCatState extends State<TaskCat> {
 
     Navigator.of(context).pop();
     _controllerCat.clear();
+    db.UpdateData();
   }
 
   void _cancelCat() {
     Navigator.of(context).pop();
     _controllerCat.clear();
+    db.UpdateData();
   }
 
   void createTask() {
@@ -75,6 +97,7 @@ class _TaskCatState extends State<TaskCat> {
         );
       },
     );
+    db.UpdateData();
   }
 
   void remove(int ind) {
@@ -84,13 +107,14 @@ class _TaskCatState extends State<TaskCat> {
       ),
       duration: Duration(seconds: 3),
     );
-    if (ToDoList.length == 3) {
+    if (db.ToDoList.length == 3) {
       ScaffoldMessenger.of(context).showSnackBar(msg);
     } else {
       setState(() {
-        ToDoList.removeAt(ToDoList.length - ind - 1);
+        db.ToDoList.removeAt(db.ToDoList.length - ind - 1);
       });
     }
+    db.UpdateData();
   }
 
   void createCat() {
@@ -100,16 +124,17 @@ class _TaskCatState extends State<TaskCat> {
           return NewCat(
               controller: _controllerCat, save: _saveCat, cancel: _cancelCat);
         });
+    db.UpdateData();
   }
 
   @override
   Widget build(BuildContext context) {
     List<int> filteredIndexes = [];
 
-    List filteredTasks = ToDoList.where((task) {
+    List filteredTasks = db.ToDoList.where((task) {
       final match = selectedCat.isEmpty || selectedCat.contains(task[1]);
       if (match) {
-        filteredIndexes.add(ToDoList.indexOf(task));
+        filteredIndexes.add(db.ToDoList.indexOf(task));
       }
       return match;
     }).toList();
@@ -138,24 +163,7 @@ class _TaskCatState extends State<TaskCat> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  'lib/images/LOGO-nav.png',
-                  width: 90,
-                ),
-                const Icon(
-                  Icons.menu,
-                  size: 29,
-                  color: Color.fromARGB(255, 0, 184, 169),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15, left: 8),
+            padding: const EdgeInsets.only(top: 75, left: 8),
             child: Container(
               height: 50,
               margin: EdgeInsets.only(left: 21),
@@ -247,57 +255,6 @@ class _TaskCatState extends State<TaskCat> {
             ),
           ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 34, 40, 49),
-        onPressed: createTask,
-        child: Icon(
-          Icons.add,
-          color: Color.fromARGB(255, 0, 184, 169),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        height: 70,
-        color: Color.fromARGB(255, 0, 184, 169),
-        shape: CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return TaskCat();
-                  }));
-                },
-                icon: Icon(
-                  Icons.folder,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                )),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.grid_3x3,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                )),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.calendar_month,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                )),
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return HomePage();
-                  }));
-                },
-                icon: Icon(
-                  Icons.person,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                ))
-          ],
-        ),
       ),
     );
   }

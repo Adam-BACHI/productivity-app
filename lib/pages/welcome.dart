@@ -3,10 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:productivity_app/comps/introButton.dart';
-import 'package:productivity_app/pages/home.dart';
 import 'package:productivity_app/pages/introPages/welcome1.dart';
 import 'package:productivity_app/pages/introPages/welcome2.dart';
 import 'package:productivity_app/pages/introPages/welcome3.dart';
+import 'package:productivity_app/pages/root.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Welcome extends StatefulWidget {
@@ -76,7 +76,7 @@ class _WelcomeState extends State<Welcome> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return HomePage();
+                      return Root();
                     }));
                   },
                   child: Padding(

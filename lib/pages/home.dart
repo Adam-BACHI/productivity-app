@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/comps/ProgressTracker.dart';
 import 'package:productivity_app/comps/TaskComp.dart';
 import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/pages/TaskCategories.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
-import 'package:productivity_app/pages/weekBilan.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,12 +14,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  DataBase db = DataBase();
+  final _myBase = Hive.box("TaskBase");
+
+  @override
+  void initState() {
+    //if it's the first time the app is launched
+    //then crate Default list
+    if (_myBase.get("TODOLIST") == null) {
+      db.DefaultData();
+    } else {
+      db.LoadData();
+    }
+
+    db.UpdateData();
+
+    super.initState();
+  }
+
   final _controller = TextEditingController();
 
   void progressChanged(double value, int ind) {
     setState(() {
-      ToDoList[ToDoList.length - ind - 1][3] = value;
+      db.ToDoList[db.ToDoList.length - ind - 1][3] = value;
     });
+    db.UpdateData();
   }
 
   String _dropValue = "categorie";
@@ -27,15 +46,17 @@ class _HomePageState extends State<HomePage> {
 
   void _save() {
     setState(() {
-      ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
+      db.ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
     });
     Navigator.of(context).pop();
     _controller.clear();
+    db.UpdateData();
   }
 
   void _cancel() {
     Navigator.of(context).pop();
     _controller.clear();
+    db.UpdateData();
   }
 
   void createTask() {
@@ -59,6 +80,7 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+    db.UpdateData();
   }
 
   void remove(int ind) {
@@ -68,13 +90,14 @@ class _HomePageState extends State<HomePage> {
       ),
       duration: Duration(seconds: 3),
     );
-    if (ToDoList.length == 3) {
+    if (db.ToDoList.length == 3) {
       ScaffoldMessenger.of(context).showSnackBar(msg);
     } else {
       setState(() {
-        ToDoList.removeAt(ToDoList.length - ind - 1);
+        db.ToDoList.removeAt(db.ToDoList.length - ind - 1);
       });
     }
+    db.UpdateData();
   }
 
   @override
@@ -84,25 +107,8 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  'lib/images/LOGO-nav.png',
-                  width: 90,
-                ),
-                const Icon(
-                  Icons.menu,
-                  size: 29,
-                  color: Color.fromARGB(255, 0, 184, 169),
-                ),
-              ],
-            ),
-          ),
           const Padding(
-            padding: const EdgeInsets.only(top: 20, left: 40),
+            padding: const EdgeInsets.only(top: 70, left: 40),
             child: Text(
               'Les taches recamment\najoutees',
               style: TextStyle(
@@ -116,13 +122,13 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.only(top: 10),
-              itemCount: ToDoList.length,
+              itemCount: db.ToDoList.length,
               itemBuilder: (context, index) {
                 return TaskComp(
-                  taskName: ToDoList[ToDoList.length - index - 1][0],
-                  category: ToDoList[ToDoList.length - index - 1][1],
-                  date: ToDoList[ToDoList.length - index - 1][2],
-                  progress: ToDoList[ToDoList.length - index - 1][3],
+                  taskName: db.ToDoList[db.ToDoList.length - index - 1][0],
+                  category: db.ToDoList[db.ToDoList.length - index - 1][1],
+                  date: db.ToDoList[db.ToDoList.length - index - 1][2],
+                  progress: db.ToDoList[db.ToDoList.length - index - 1][3],
                   onProgressChanged: (pro) {
                     progressChanged(pro, index);
                   },
@@ -162,61 +168,6 @@ class _HomePageState extends State<HomePage> {
             child: ProgressTracker(),
           )
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 34, 40, 49),
-        onPressed: createTask,
-        child: Icon(
-          Icons.add,
-          color: Color.fromARGB(255, 0, 184, 169),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        height: 70,
-        color: Color.fromARGB(255, 0, 184, 169),
-        shape: CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return TaskCat();
-                  }));
-                },
-                icon: Icon(
-                  Icons.folder,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                )),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.grid_3x3,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                )),
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Week();
-                  }));
-                },
-                icon: Icon(
-                  Icons.calendar_month,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                )),
-            IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return HomePage();
-                  }));
-                },
-                icon: Icon(
-                  Icons.person,
-                  color: Color.fromARGB(255, 34, 40, 49),
-                ))
-          ],
-        ),
       ),
     );
   }

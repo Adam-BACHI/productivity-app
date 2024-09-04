@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/pages/Loading.dart';
 import 'package:productivity_app/pages/TaskCategories.dart';
 import 'package:productivity_app/pages/weekBilan.dart';
 import 'package:productivity_app/pages/welcome.dart';
 
-void main() {
+void main() async {
+  // initialise Hive
+  await Hive.initFlutter();
+
+  //open box
+  await Hive.openBox("TaskBase");
   runApp(const ProdApp());
 }
 
