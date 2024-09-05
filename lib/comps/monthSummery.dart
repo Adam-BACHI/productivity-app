@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/comps/daySquare.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
@@ -38,20 +39,35 @@ class _MonthSummeryState extends State<MonthSummery> {
         alignment: Alignment.topCenter,
         child: SizedBox(
           height: 300,
-          child: GridView.builder(
-              itemCount:
-                  DateTime.now().difference(_myBase.get("STARTDATE")).inDays +
-                      2,
-              scrollDirection: Axis.horizontal,
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
-              itemBuilder: (context, i) {
-                return Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: DaySquare(
-                      date: _myBase.get("STARTDATE").add(Duration(days: i)),
-                    ));
-              }),
+          child: AnimationLimiter(
+            child: GridView.builder(
+                itemCount:
+                    DateTime.now().difference(_myBase.get("STARTDATE")).inDays +
+                                2 >=
+                            49
+                        ? DateTime.now()
+                                .difference(_myBase.get("STARTDATE"))
+                                .inDays +
+                            2
+                        : 49,
+                scrollDirection: Axis.horizontal,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 7),
+                itemBuilder: (context, i) {
+                  return AnimationConfiguration.staggeredGrid(
+                    position: i,
+                    columnCount: 3,
+                    child: ScaleAnimation(
+                      child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: DaySquare(
+                            date:
+                                _myBase.get("STARTDATE").add(Duration(days: i)),
+                          )),
+                    ),
+                  );
+                }),
+          ),
         ),
       ),
     );

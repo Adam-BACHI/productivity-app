@@ -17,6 +17,10 @@ class _HomePageState extends State<HomePage> {
   DataBase db = DataBase();
   final _myBase = Hive.box("TaskBase");
 
+  //for the animation
+  double width = 0;
+  bool myAnimation = false;
+
   @override
   void initState() {
     //if it's the first time the app is launched
@@ -30,6 +34,12 @@ class _HomePageState extends State<HomePage> {
     db.UpdateData();
 
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        myAnimation = true;
+      });
+    });
   }
 
   final _controller = TextEditingController();
@@ -102,6 +112,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 18, 26, 39),
       body: Column(
@@ -124,15 +135,21 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(top: 5),
               itemCount: db.ToDoList.length,
               itemBuilder: (context, index) {
-                return TaskComp(
-                  taskName: db.ToDoList[db.ToDoList.length - index - 1][0],
-                  category: db.ToDoList[db.ToDoList.length - index - 1][1],
-                  date: db.ToDoList[db.ToDoList.length - index - 1][2],
-                  progress: db.ToDoList[db.ToDoList.length - index - 1][3],
-                  onProgressChanged: (pro) {
-                    progressChanged(pro, index);
-                  },
-                  delTask: (context) => remove(index),
+                return AnimatedContainer(
+                  duration: Duration(milliseconds: 200 + index * 250),
+                  curve: Curves.easeIn,
+                  transform:
+                      Matrix4.translationValues(myAnimation ? 0 : width, 0, 0),
+                  child: TaskComp(
+                    taskName: db.ToDoList[db.ToDoList.length - index - 1][0],
+                    category: db.ToDoList[db.ToDoList.length - index - 1][1],
+                    date: db.ToDoList[db.ToDoList.length - index - 1][2],
+                    progress: db.ToDoList[db.ToDoList.length - index - 1][3],
+                    onProgressChanged: (pro) {
+                      progressChanged(pro, index);
+                    },
+                    delTask: (context) => remove(index),
+                  ),
                 );
               },
             ),

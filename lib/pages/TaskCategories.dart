@@ -16,6 +16,10 @@ class _TaskCatState extends State<TaskCat> {
   DataBase db = DataBase();
   final _myBase = Hive.box("TaskBase");
 
+  //for the animation
+  double width = 0;
+  bool myAnimation = false;
+
   @override
   void initState() {
     //if it's the first time the app is launched
@@ -29,6 +33,11 @@ class _TaskCatState extends State<TaskCat> {
     db.UpdateData();
 
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        myAnimation = true;
+      });
+    });
   }
 
   void progressChanged(double value, int ind) {
@@ -116,6 +125,28 @@ class _TaskCatState extends State<TaskCat> {
     db.UpdateData();
   }
 
+  void removeCat(int ind) {
+    int i = 0;
+    final msg = SnackBar(
+      content: Text(
+        'vous ne pouvez pas supprimer une categorie sans suprimer toutes les taches de cette derniere',
+      ),
+      duration: Duration(seconds: 5),
+    );
+    while (
+        (db.ToDoList[i][1] != db.categories[ind]) && (i < db.ToDoList.length)) {
+      i++;
+    }
+
+    if (i == db.ToDoList.length) {
+      setState(() {
+        db.categories.removeAt(ind);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(msg);
+    }
+  }
+
   void createCat() {
     showDialog(
         context: context,
@@ -154,6 +185,8 @@ class _TaskCatState extends State<TaskCat> {
       }
     }
 
+    width = MediaQuery.of(context).size.width;
+
     //ProgressCount();
 
     return Scaffold(
@@ -184,31 +217,35 @@ class _TaskCatState extends State<TaskCat> {
                   } else {
                     return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: FilterChip(
-                            selectedColor: Color.fromARGB(255, 0, 184, 169),
-                            backgroundColor: Color.fromARGB(255, 34, 40, 49),
-                            checkmarkColor: Color.fromARGB(255, 252, 252, 253),
-                            labelStyle: TextStyle(
-                                color: Color.fromARGB(255, 252, 252, 253),
-                                fontFamily: 'Open'),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                side: BorderSide(
-                                  color: Color.fromARGB(255, 0, 184, 169),
-                                  width: 1.0,
-                                )),
-                            label: Text(db.categories[index]),
-                            selected:
-                                selectedCat.contains(db.categories[index]),
-                            onSelected: (selected) {
-                              setState(() {
-                                if (selected) {
-                                  selectedCat.add(db.categories[index]);
-                                } else {
-                                  selectedCat.remove(db.categories[index]);
-                                }
-                              });
-                            }));
+                        child: GestureDetector(
+                          onLongPress: () => removeCat(index),
+                          child: FilterChip(
+                              selectedColor: Color.fromARGB(255, 0, 184, 169),
+                              backgroundColor: Color.fromARGB(255, 34, 40, 49),
+                              checkmarkColor:
+                                  Color.fromARGB(255, 252, 252, 253),
+                              labelStyle: TextStyle(
+                                  color: Color.fromARGB(255, 252, 252, 253),
+                                  fontFamily: 'Open'),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  side: BorderSide(
+                                    color: Color.fromARGB(255, 0, 184, 169),
+                                    width: 1.0,
+                                  )),
+                              label: Text(db.categories[index]),
+                              selected:
+                                  selectedCat.contains(db.categories[index]),
+                              onSelected: (selected) {
+                                setState(() {
+                                  if (selected) {
+                                    selectedCat.add(db.categories[index]);
+                                  } else {
+                                    selectedCat.remove(db.categories[index]);
+                                  }
+                                });
+                              }),
+                        ));
                   }
                 },
               ),
@@ -241,16 +278,21 @@ class _TaskCatState extends State<TaskCat> {
 
                 final mainIndex = filteredIndexes[index];
 
-                return TaskComp(
-                  taskName: TaskName,
-                  category: Category,
-                  date: Date,
-                  progress: Progress,
-                  onProgressChanged: (pro) {
-                    progressChanged(pro, mainIndex);
-                  },
-                  delTask: (context) => remove(index),
-                );
+                return AnimatedContainer(
+                    duration: Duration(milliseconds: 200 + index * 250),
+                    curve: Curves.easeIn,
+                    transform: Matrix4.translationValues(
+                        myAnimation ? 0 : width, 0, 0),
+                    child: TaskComp(
+                      taskName: TaskName,
+                      category: Category,
+                      date: Date,
+                      progress: Progress,
+                      onProgressChanged: (pro) {
+                        progressChanged(pro, mainIndex);
+                      },
+                      delTask: (context) => remove(index),
+                    ));
               },
             ),
           ),
