@@ -4,7 +4,6 @@ import 'package:productivity_app/comps/TaskComp.dart';
 import 'package:productivity_app/comps/newCat.dart';
 import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
-import 'package:productivity_app/dataBase/Categories.dart';
 
 class TaskCat extends StatefulWidget {
   const TaskCat({super.key});
@@ -62,7 +61,7 @@ class _TaskCatState extends State<TaskCat> {
 
   void _saveCat() {
     setState(() {
-      categories.add(_controllerCat.text);
+      db.categories.add(_controllerCat.text);
     });
 
     Navigator.of(context).pop();
@@ -168,10 +167,10 @@ class _TaskCatState extends State<TaskCat> {
               height: 50,
               margin: EdgeInsets.only(left: 21),
               child: ListView.builder(
-                itemCount: categories.length + 1,
+                itemCount: db.categories.length + 1,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  if (index == categories.length) {
+                  if (index == db.categories.length) {
                     return Padding(
                       padding: EdgeInsets.all(8.0),
                       child: MaterialButton(
@@ -198,14 +197,15 @@ class _TaskCatState extends State<TaskCat> {
                                   color: Color.fromARGB(255, 0, 184, 169),
                                   width: 1.0,
                                 )),
-                            label: Text(categories[index]),
-                            selected: selectedCat.contains(categories[index]),
+                            label: Text(db.categories[index]),
+                            selected:
+                                selectedCat.contains(db.categories[index]),
                             onSelected: (selected) {
                               setState(() {
                                 if (selected) {
-                                  selectedCat.add(categories[index]);
+                                  selectedCat.add(db.categories[index]);
                                 } else {
-                                  selectedCat.remove(categories[index]);
+                                  selectedCat.remove(db.categories[index]);
                                 }
                               });
                             }));

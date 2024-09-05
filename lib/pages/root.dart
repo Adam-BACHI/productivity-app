@@ -125,7 +125,7 @@ class _WelcomeState extends State<Root> {
                 HomePage(),
                 TaskCat(),
                 Week(),
-                HeatMap()
+                HeatMapPage()
               ],
             ),
 

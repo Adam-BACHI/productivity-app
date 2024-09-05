@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/comps/TaskComp.dart';
+import 'package:productivity_app/comps/monthSummery.dart';
 import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
-class HeatMap extends StatefulWidget {
-  const HeatMap({super.key});
+class HeatMapPage extends StatefulWidget {
+  const HeatMapPage({super.key});
 
   @override
-  State<HeatMap> createState() => _HeatMapState();
+  State<HeatMapPage> createState() => _HeatMapState();
 }
 
-class _HeatMapState extends State<HeatMap> {
+class _HeatMapState extends State<HeatMapPage> {
   DataBase db = DataBase();
   final _myBase = Hive.box("TaskBase");
 
@@ -102,21 +103,27 @@ class _HeatMapState extends State<HeatMap> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 18, 26, 39),
-      body: ListView.builder(
-        itemCount: db.ToDoList.length,
-        itemBuilder: (context, index) {
-          return TaskComp(
-            taskName: db.ToDoList[db.ToDoList.length - index - 1][0],
-            category: db.ToDoList[db.ToDoList.length - index - 1][1],
-            date: db.ToDoList[db.ToDoList.length - index - 1][2],
-            progress: db.ToDoList[db.ToDoList.length - index - 1][3],
-            onProgressChanged: (pro) {
-              progressChanged(pro, index);
+      body: Column(children: [
+        MonthSummery(),
+        Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: db.ToDoList.length,
+            itemBuilder: (context, index) {
+              return TaskComp(
+                taskName: db.ToDoList[db.ToDoList.length - index - 1][0],
+                category: db.ToDoList[db.ToDoList.length - index - 1][1],
+                date: db.ToDoList[db.ToDoList.length - index - 1][2],
+                progress: db.ToDoList[db.ToDoList.length - index - 1][3],
+                onProgressChanged: (pro) {
+                  progressChanged(pro, index);
+                },
+                delTask: (context) => remove(index),
+              );
             },
-            delTask: (context) => remove(index),
-          );
-        },
-      ),
+          ),
+        ),
+      ]),
     );
   }
 }

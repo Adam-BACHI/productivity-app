@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:productivity_app/dataBase/Categories.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class ProgressTracker extends StatefulWidget {
@@ -33,14 +32,14 @@ class _ProgressTrackerState extends State<ProgressTracker> {
 
   int stepBack(int num) {
     if (num == 0) {
-      return categories.length - 1;
+      return db.categories.length - 1;
     } else {
       return num - 1;
     }
   }
 
   int stepForward(int num) {
-    if (num == categories.length - 1) {
+    if (num == db.categories.length - 1) {
       return 0;
     } else {
       return num + 1;
@@ -60,7 +59,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
   }
 
   double catPercent() {
-    String match = categories[CatTrack];
+    String match = db.categories[CatTrack];
     double sum = 0;
     int cpt = 0;
 
@@ -121,7 +120,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        '${categories[CatTrack]}',
+                        '${db.categories[CatTrack]}',
                         style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'Open',

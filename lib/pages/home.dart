@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.only(top: 5),
               itemCount: db.ToDoList.length,
               itemBuilder: (context, index) {
                 return TaskComp(
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 40, bottom: 50),
+            padding: const EdgeInsets.only(left: 40),
             child: GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 60),
+            padding: const EdgeInsets.only(bottom: 60, top: 10),
             child: ProgressTracker(),
           )
         ],

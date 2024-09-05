@@ -137,12 +137,12 @@ class _WeekState extends State<Week> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(top: 15),
+            padding: const EdgeInsets.only(top: 0),
             child: ListView.builder(
               itemCount: 7,
               itemBuilder: (context, i) {
                 return Padding(
-                  padding: const EdgeInsets.only(left: 30, top: 15),
+                  padding: const EdgeInsets.only(left: 30, top: 5),
                   child: DayTotal(date: begOfWeek().add(Duration(days: i))),
                 );
               },

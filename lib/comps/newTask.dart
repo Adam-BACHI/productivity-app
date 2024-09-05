@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/dataBase/Categories.dart';
+import 'package:productivity_app/dataBase/TaskList.dart';
 
 class NewTask extends StatefulWidget {
   final controller;
@@ -22,6 +22,7 @@ class NewTask extends StatefulWidget {
 }
 
 class _NewTaskState extends State<NewTask> {
+  DataBase db = DataBase();
   String dropValue = 'categorie';
 
   DateTime date = DateTime.now();
@@ -74,7 +75,7 @@ class _NewTaskState extends State<NewTask> {
                     });
                     widget.onDropValueChanged(newValue!);
                   },
-                  items: categories.map((cat) {
+                  items: db.categories.map((cat) {
                     return DropdownMenuItem(
                       child: Text(cat),
                       value: cat,
