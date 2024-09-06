@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/comps/ProgressTracker.dart';
 import 'package:productivity_app/comps/TaskComp.dart';
-import 'package:productivity_app/comps/newTask.dart';
-import 'package:productivity_app/pages/TaskCategories.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,54 +40,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  final _controller = TextEditingController();
-
   void progressChanged(double value, int ind) {
     setState(() {
       db.ToDoList[db.ToDoList.length - ind - 1][3] = value;
     });
-    db.UpdateData();
-  }
-
-  String _dropValue = "categorie";
-  DateTime _date = DateTime.now();
-
-  void _save() {
-    setState(() {
-      db.ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
-    });
-    Navigator.of(context).pop();
-    _controller.clear();
-    db.UpdateData();
-  }
-
-  void _cancel() {
-    Navigator.of(context).pop();
-    _controller.clear();
-    db.UpdateData();
-  }
-
-  void createTask() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return NewTask(
-          controller: _controller,
-          save: _save,
-          cancel: _cancel,
-          onDropValueChanged: (newValue) {
-            setState(() {
-              _dropValue = newValue;
-            });
-          },
-          onDateSelection: (date) {
-            setState(() {
-              _date = date;
-            });
-          },
-        );
-      },
-    );
     db.UpdateData();
   }
 
@@ -123,7 +77,6 @@ class _HomePageState extends State<HomePage> {
             child: Text(
               'Les taches recamment\najoutees',
               style: TextStyle(
-                fontFamily: 'Open',
                 fontSize: 26,
                 color: Color.fromARGB(255, 252, 252, 253),
                 fontWeight: FontWeight.w700,
@@ -152,32 +105,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 40),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return TaskCat();
-                }));
-              },
-              child: const Row(
-                children: [
-                  Text(
-                    'voir plus',
-                    style: TextStyle(
-                      fontFamily: 'Open',
-                      fontSize: 13,
-                      color: Color.fromARGB(255, 0, 184, 169),
-                    ),
-                  ),
-                  Icon(
-                    Icons.arrow_right,
-                    color: Color.fromARGB(255, 0, 184, 169),
-                  ),
-                ],
-              ),
             ),
           ),
           Padding(

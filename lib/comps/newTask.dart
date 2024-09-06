@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class NewTask extends StatefulWidget {
@@ -23,6 +24,23 @@ class NewTask extends StatefulWidget {
 
 class _NewTaskState extends State<NewTask> {
   DataBase db = DataBase();
+  final _myBase = Hive.box("TaskBase");
+
+  @override
+  void initState() {
+    //if it's the first time the app is launched
+    //then crate Default list
+    if (_myBase.get("TODOLIST") == null) {
+      db.DefaultData();
+    } else {
+      db.LoadData();
+    }
+
+    db.UpdateData();
+
+    super.initState();
+  }
+
   String dropValue = 'categorie';
 
   DateTime date = DateTime.now();

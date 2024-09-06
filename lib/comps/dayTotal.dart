@@ -74,7 +74,9 @@ class _DayTotalState extends State<DayTotal> {
         Text(
           dateToWeek(widget.date),
           style: TextStyle(
-              fontSize: 25, fontWeight: FontWeight.w300, fontFamily: 'Open'),
+            fontSize: 25,
+            fontWeight: FontWeight.w300,
+          ),
         ),
         const SizedBox(
           height: 10,

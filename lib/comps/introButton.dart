@@ -23,7 +23,6 @@ class introButton extends StatelessWidget {
                 child: Text(
                   title,
                   style: TextStyle(
-                    fontFamily: 'Open',
                     fontWeight: FontWeight.w800,
                     color: Color.fromARGB(225, 253, 253, 252),
                     fontSize: 30,

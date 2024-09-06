@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/pages/Loading.dart';
-import 'package:productivity_app/pages/TaskCategories.dart';
-import 'package:productivity_app/pages/weekBilan.dart';
-import 'package:productivity_app/pages/welcome.dart';
 
 void main() async {
   // initialise Hive
@@ -23,12 +20,10 @@ class ProdApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Loading(),
-      theme: ThemeData(primarySwatch: Colors.teal, brightness: Brightness.dark),
-      routes: {
-        '/welcomepage': (context) => const Welcome(),
-        '/taskcat': (context) => const TaskCat(),
-        '/week': (context) => const Week(),
-      },
+      theme: ThemeData(
+          primarySwatch: Colors.teal,
+          brightness: Brightness.dark,
+          fontFamily: "Panton"),
     );
   }
 }

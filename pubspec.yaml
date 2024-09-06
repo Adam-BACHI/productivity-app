@@ -82,16 +82,23 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Bulo
-      fonts:
-        - asset: fonts/BuloRounded-Black.otf
+    #- family: Bulo
+      #fonts:
+        #- asset: fonts/BuloRounded-Black.otf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-    - family: Open
-      fonts:
-        - asset: fonts/OpenSans-VariableFont_wdth,wght.ttf
+    #- family: Open
+      #fonts:
+        #- asset: fonts/OpenSans-VariableFont_wdth,wght.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+    - family: Panton
+      fonts:
+        - asset: fonts/Panton-Trial-Regular.ttf
+        - asset: fonts/Panton-Trial-Bold.ttf
+          weight: 700
+        - asset: fonts/Panton-Trial-Light.ttf
+          weight: 300   
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

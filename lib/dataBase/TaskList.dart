@@ -20,6 +20,9 @@ class DataBase {
     ];
 
     _myBase.put("STARTDATE", DateTime.now());
+
+    _myBase.put("TODOLIST", ToDoList);
+    _myBase.put("CATEGORIES", categories);
   }
 
 //add data if it already exists

@@ -23,7 +23,6 @@ class Welcome3 extends StatelessWidget {
             'Faites tout ce que vous planifiez!',
             style: TextStyle(
                 fontSize: 22,
-                fontFamily: 'Open',
                 fontWeight: FontWeight.w900,
                 color: Color.fromARGB(255, 253, 253, 252)),
           ),
@@ -32,7 +31,6 @@ class Welcome3 extends StatelessWidget {
           child: Text(
             'Lorem ipsum Lorem ipsumLorem ipsumLorem\n                          ipsumLorem ipsum',
             style: TextStyle(
-                fontFamily: 'Open',
                 fontWeight: FontWeight.w400,
                 color: Color.fromARGB(255, 253, 253, 252)),
           ),

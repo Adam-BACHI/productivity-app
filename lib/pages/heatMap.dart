@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/comps/TaskComp.dart';
 import 'package:productivity_app/comps/monthSummery.dart';
-import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class HeatMapPage extends StatefulWidget {
@@ -40,54 +39,10 @@ class _HeatMapState extends State<HeatMapPage> {
     });
   }
 
-  final _controller = TextEditingController();
-
   void progressChanged(double value, int ind) {
     setState(() {
       db.ToDoList[db.ToDoList.length - ind - 1][3] = value;
     });
-    db.UpdateData();
-  }
-
-  String _dropValue = "categorie";
-  DateTime _date = DateTime.now();
-
-  void _save() {
-    setState(() {
-      db.ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
-    });
-    Navigator.of(context).pop();
-    _controller.clear();
-    db.UpdateData();
-  }
-
-  void _cancel() {
-    Navigator.of(context).pop();
-    _controller.clear();
-    db.UpdateData();
-  }
-
-  void createTask() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return NewTask(
-          controller: _controller,
-          save: _save,
-          cancel: _cancel,
-          onDropValueChanged: (newValue) {
-            setState(() {
-              _dropValue = newValue;
-            });
-          },
-          onDateSelection: (date) {
-            setState(() {
-              _date = date;
-            });
-          },
-        );
-      },
-    );
     db.UpdateData();
   }
 

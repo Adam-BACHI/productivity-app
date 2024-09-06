@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/comps/TaskComp.dart';
 import 'package:productivity_app/comps/newCat.dart';
-import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class TaskCat extends StatefulWidget {
@@ -48,25 +47,7 @@ class _TaskCatState extends State<TaskCat> {
 
   List selectedCat = [];
 
-  String _dropValue = "categorie";
-  DateTime _date = DateTime.now();
-  final _controller = TextEditingController();
   final _controllerCat = TextEditingController();
-
-  void _save() {
-    setState(() {
-      db.ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
-    });
-    Navigator.of(context).pop();
-    _controller.clear();
-    db.UpdateData();
-  }
-
-  void _cancel() {
-    Navigator.of(context).pop();
-    _controller.clear();
-    db.UpdateData();
-  }
 
   void _saveCat() {
     setState(() {
@@ -84,30 +65,6 @@ class _TaskCatState extends State<TaskCat> {
     db.UpdateData();
   }
 
-  void createTask() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return NewTask(
-          controller: _controller,
-          save: _save,
-          cancel: _cancel,
-          onDropValueChanged: (newValue) {
-            setState(() {
-              _dropValue = newValue;
-            });
-          },
-          onDateSelection: (date) {
-            setState(() {
-              _date = date;
-            });
-          },
-        );
-      },
-    );
-    db.UpdateData();
-  }
-
   void remove(int ind) {
     final msg = SnackBar(
       content: Text(
@@ -119,7 +76,7 @@ class _TaskCatState extends State<TaskCat> {
       ScaffoldMessenger.of(context).showSnackBar(msg);
     } else {
       setState(() {
-        db.ToDoList.removeAt(db.ToDoList.length - ind - 1);
+        db.ToDoList.removeAt(ind);
       });
     }
     db.UpdateData();
@@ -134,7 +91,7 @@ class _TaskCatState extends State<TaskCat> {
       duration: Duration(seconds: 5),
     );
     while (
-        (db.ToDoList[i][1] != db.categories[ind]) && (i < db.ToDoList.length)) {
+        (i < db.ToDoList.length) && (db.ToDoList[i][1] != db.categories[ind])) {
       i++;
     }
 
@@ -187,8 +144,6 @@ class _TaskCatState extends State<TaskCat> {
 
     width = MediaQuery.of(context).size.width;
 
-    //ProgressCount();
-
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 18, 26, 39),
       body: Column(
@@ -225,8 +180,8 @@ class _TaskCatState extends State<TaskCat> {
                               checkmarkColor:
                                   Color.fromARGB(255, 252, 252, 253),
                               labelStyle: TextStyle(
-                                  color: Color.fromARGB(255, 252, 252, 253),
-                                  fontFamily: 'Open'),
+                                color: Color.fromARGB(255, 252, 252, 253),
+                              ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   side: BorderSide(
@@ -255,10 +210,9 @@ class _TaskCatState extends State<TaskCat> {
             padding: const EdgeInsets.only(top: 15),
             child: Center(
                 child: Text(
-              'Votre progres est de: ${ProgressCount().toStringAsFixed(0)}%',
+              'Votre progres est de: ${ProgressCount().toStringAsFixed(0)}',
               style: TextStyle(
                   fontSize: 20,
-                  fontFamily: 'Open',
                   fontWeight: FontWeight.w600,
                   color: Color.fromARGB(255, 252, 252, 253)),
             )),
@@ -291,7 +245,7 @@ class _TaskCatState extends State<TaskCat> {
                       onProgressChanged: (pro) {
                         progressChanged(pro, mainIndex);
                       },
-                      delTask: (context) => remove(index),
+                      delTask: (context) => remove(mainIndex),
                     ));
               },
             ),

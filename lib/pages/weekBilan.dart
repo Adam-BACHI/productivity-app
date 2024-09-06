@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/comps/dayTotal.dart';
-import 'package:productivity_app/comps/newTask.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class Week extends StatefulWidget {
@@ -29,8 +28,6 @@ class _WeekState extends State<Week> {
 
     super.initState();
   }
-
-  final _controller = TextEditingController();
 
   String dateToWeek(DateTime date) {
     switch (date.weekday) {
@@ -76,48 +73,6 @@ class _WeekState extends State<Week> {
     db.UpdateData();
   }
 
-  String _dropValue = "categorie";
-  DateTime _date = DateTime.now();
-
-  void _save() {
-    setState(() {
-      db.ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
-    });
-    Navigator.of(context).pop();
-    _controller.clear();
-    db.UpdateData();
-  }
-
-  void _cancel() {
-    Navigator.of(context).pop();
-    _controller.clear();
-    db.UpdateData();
-  }
-
-  void createTask() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return NewTask(
-          controller: _controller,
-          save: _save,
-          cancel: _cancel,
-          onDropValueChanged: (newValue) {
-            setState(() {
-              _dropValue = newValue;
-            });
-          },
-          onDateSelection: (date) {
-            setState(() {
-              _date = date;
-            });
-          },
-        );
-      },
-    );
-    db.UpdateData();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,7 +83,6 @@ class _WeekState extends State<Week> {
           child: Text(
             'Bilan de la semaine',
             style: TextStyle(
-              fontFamily: 'Open',
               fontSize: 26,
               color: Color.fromARGB(255, 252, 252, 253),
               fontWeight: FontWeight.w700,

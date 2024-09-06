@@ -83,7 +83,6 @@ class _ProgressTrackerState extends State<ProgressTracker> {
             const Text(
               'Votre progrès',
               style: TextStyle(
-                fontFamily: 'Open',
                 fontSize: 19,
                 fontWeight: FontWeight.w700,
                 color: Color.fromARGB(255, 252, 252, 253),
@@ -108,7 +107,6 @@ class _ProgressTrackerState extends State<ProgressTracker> {
                       Text(
                         '${catPercent().toStringAsFixed(0)}%',
                         style: TextStyle(
-                            fontFamily: 'Open',
                             fontSize: 30,
                             color: catPercent() < 25
                                 ? Color.fromARGB(255, 246, 65, 108)
@@ -123,7 +121,6 @@ class _ProgressTrackerState extends State<ProgressTracker> {
                         '${db.categories[CatTrack]}',
                         style: TextStyle(
                           fontSize: 15,
-                          fontFamily: 'Open',
                           color: catPercent() < 25
                               ? Color.fromARGB(255, 246, 65, 108)
                               : catPercent() < 50
