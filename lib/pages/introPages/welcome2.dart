@@ -18,7 +18,7 @@ class Welcome2 extends StatelessWidget {
         const SizedBox(
           height: 40,
         ),
-        Center(
+        const Center(
           child: Text(
             'Obtenez un plan personnalise!',
             style: TextStyle(
@@ -27,7 +27,7 @@ class Welcome2 extends StatelessWidget {
                 color: Color.fromARGB(255, 253, 253, 252)),
           ),
         ),
-        Center(
+        const Center(
           child: Text(
             'Lorem ipsum Lorem ipsumLorem ipsumLorem\n                          ipsumLorem ipsum',
             style: TextStyle(

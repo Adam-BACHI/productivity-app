@@ -5,7 +5,7 @@ import 'package:productivity_app/comps/monthSummery.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class HeatMapPage extends StatefulWidget {
-  const HeatMapPage({super.key});
+  HeatMapPage({super.key});
 
   @override
   State<HeatMapPage> createState() => _HeatMapState();
@@ -47,7 +47,7 @@ class _HeatMapState extends State<HeatMapPage> {
   }
 
   void remove(int ind) {
-    final msg = SnackBar(
+    const msg = SnackBar(
       content: Text(
         'vous devez laisser au moins 3 taches',
       ),
@@ -67,9 +67,9 @@ class _HeatMapState extends State<HeatMapPage> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 18, 26, 39),
+      backgroundColor: const Color.fromARGB(255, 18, 26, 39),
       body: Column(children: [
-        MonthSummery(),
+        const MonthSummery(),
         Expanded(
           child: ListView.builder(
             shrinkWrap: true,

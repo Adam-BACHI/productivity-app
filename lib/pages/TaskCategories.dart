@@ -5,7 +5,7 @@ import 'package:productivity_app/comps/newCat.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class TaskCat extends StatefulWidget {
-  const TaskCat({super.key});
+  TaskCat({super.key});
 
   @override
   State<TaskCat> createState() => _TaskCatState();
@@ -50,10 +50,24 @@ class _TaskCatState extends State<TaskCat> {
   final _controllerCat = TextEditingController();
 
   void _saveCat() {
-    setState(() {
-      db.categories.add(_controllerCat.text);
-    });
-
+    const msg = SnackBar(
+      content: Text(
+        'cette categorie existe deja',
+      ),
+      duration: Duration(seconds: 3),
+    );
+    int i = 0;
+    while ((i < db.categories.length) &&
+        (db.categories[i] != _controllerCat.text)) {
+      i++;
+    }
+    if (i == db.categories.length) {
+      setState(() {
+        db.categories.add(_controllerCat.text);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(msg);
+    }
     Navigator.of(context).pop();
     _controllerCat.clear();
     db.UpdateData();
@@ -66,7 +80,7 @@ class _TaskCatState extends State<TaskCat> {
   }
 
   void remove(int ind) {
-    final msg = SnackBar(
+    const msg = SnackBar(
       content: Text(
         'vous devez laisser au moins 3 taches',
       ),
@@ -84,7 +98,7 @@ class _TaskCatState extends State<TaskCat> {
 
   void removeCat(int ind) {
     int i = 0;
-    final msg = SnackBar(
+    const msg = SnackBar(
       content: Text(
         'vous ne pouvez pas supprimer une categorie sans suprimer toutes les taches de cette derniere',
       ),
@@ -145,7 +159,7 @@ class _TaskCatState extends State<TaskCat> {
     width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 18, 26, 39),
+      backgroundColor: const Color.fromARGB(255, 18, 26, 39),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -153,20 +167,20 @@ class _TaskCatState extends State<TaskCat> {
             padding: const EdgeInsets.only(top: 75, left: 8),
             child: Container(
               height: 50,
-              margin: EdgeInsets.only(left: 21),
+              margin: const EdgeInsets.only(left: 21),
               child: ListView.builder(
                 itemCount: db.categories.length + 1,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   if (index == db.categories.length) {
                     return Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: MaterialButton(
                         onPressed: createCat,
                         color: const Color.fromARGB(255, 0, 184, 169),
-                        child: Icon(Icons.add),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
+                        child: const Icon(Icons.add),
                       ),
                     );
                   } else {
@@ -175,16 +189,18 @@ class _TaskCatState extends State<TaskCat> {
                         child: GestureDetector(
                           onLongPress: () => removeCat(index),
                           child: FilterChip(
-                              selectedColor: Color.fromARGB(255, 0, 184, 169),
-                              backgroundColor: Color.fromARGB(255, 34, 40, 49),
+                              selectedColor:
+                                  const Color.fromARGB(255, 0, 184, 169),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 34, 40, 49),
                               checkmarkColor:
-                                  Color.fromARGB(255, 252, 252, 253),
-                              labelStyle: TextStyle(
+                                  const Color.fromARGB(255, 252, 252, 253),
+                              labelStyle: const TextStyle(
                                 color: Color.fromARGB(255, 252, 252, 253),
                               ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  side: BorderSide(
+                                  side: const BorderSide(
                                     color: Color.fromARGB(255, 0, 184, 169),
                                     width: 1.0,
                                   )),
@@ -210,8 +226,8 @@ class _TaskCatState extends State<TaskCat> {
             padding: const EdgeInsets.only(top: 15),
             child: Center(
                 child: Text(
-              'Votre progres est de: ${ProgressCount().toStringAsFixed(0)}',
-              style: TextStyle(
+              'Votre progres est de: ${ProgressCount().toStringAsFixed(0)}%',
+              style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: Color.fromARGB(255, 252, 252, 253)),

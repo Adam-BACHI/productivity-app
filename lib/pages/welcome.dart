@@ -17,7 +17,7 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  PageController _controller = PageController();
+  final PageController _controller = PageController();
 
   bool onLastPage = false;
 
@@ -27,23 +27,21 @@ class _WelcomeState extends State<Welcome> {
       body: Stack(
         children: [
           Container(
+            color: const Color.fromARGB(255, 18, 26, 39),
             child: Lottie.asset(
               'lib/animate/mesh.json',
               width: double.infinity,
             ),
-            color: Color.fromARGB(255, 18, 26, 39),
           ),
 
-          Container(
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 100.0,
-                  sigmaY: 100.0,
-                ),
-                child: Container(
-                  width: double.infinity,
-                ),
+          ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: 100.0,
+                sigmaY: 100.0,
+              ),
+              child: Container(
+                width: double.infinity,
               ),
             ),
           ),
@@ -55,7 +53,7 @@ class _WelcomeState extends State<Welcome> {
                 onLastPage = (index == 2);
               });
             },
-            children: [
+            children: const [
               // DIFFERENT PAGES
               Welcome1(),
               Welcome2(),
@@ -79,21 +77,21 @@ class _WelcomeState extends State<Welcome> {
                       return Root();
                     }));
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 680),
-                    child: Container(child: introButton(title: 'Commencer')),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 680),
+                    child: introButton(title: 'Commencer'),
                   ),
                 )
               : GestureDetector(
                   // NOT LAST PAGE => NEXT PAGE
                   onTap: () {
                     _controller.nextPage(
-                        duration: Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 500),
                         curve: Curves.easeIn);
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 680),
-                    child: Container(child: introButton(title: 'Suivant')),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 680),
+                    child: introButton(title: 'Suivant'),
                   ),
                 ),
 
@@ -101,7 +99,7 @@ class _WelcomeState extends State<Welcome> {
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Container(
-                alignment: Alignment(-0.8, 0.9),
+                alignment: const Alignment(-0.8, 0.9),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -109,22 +107,21 @@ class _WelcomeState extends State<Welcome> {
                     SmoothPageIndicator(
                       controller: _controller,
                       count: 3,
-                      effect: ExpandingDotsEffect(
+                      effect: const ExpandingDotsEffect(
                           activeDotColor: Color.fromARGB(255, 253, 253, 252)),
                     ),
 
                     // SOCIAL MEDIA LINKS
-                    Container(
-                      child: Row(
-                        children: [
-                          Image.asset('lib/images/insta.png'),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Image.asset('lib/images/linkedin.png')
-                        ],
-                      ),
-                    )
+
+                    Row(
+                      children: [
+                        Image.asset('lib/images/insta.png'),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Image.asset('lib/images/linkedin.png')
+                      ],
+                    ),
                   ],
                 )),
           ),

@@ -19,7 +19,7 @@ class _ProgressSlideState extends State<ProgressSlide> {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 10),
         child: SizedBox(
             height: 10.0,
             width: 300.0,
@@ -32,14 +32,14 @@ class _ProgressSlideState extends State<ProgressSlide> {
                     widget.onProgressChanged(value);
                   });
                 },
-                inactiveColor: Color.fromARGB(255, 50, 60, 72),
+                inactiveColor: const Color.fromARGB(255, 50, 60, 72),
                 activeColor: widget.progress < 25
-                    ? Color.fromARGB(255, 246, 65, 108)
+                    ? const Color.fromARGB(255, 246, 65, 108)
                     : widget.progress < 50
-                        ? Color.fromARGB(255, 255, 160, 45)
+                        ? const Color.fromARGB(255, 255, 160, 45)
                         : widget.progress < 75
-                            ? Color.fromARGB(255, 255, 222, 125)
-                            : Color.fromARGB(255, 104, 217, 195))),
+                            ? const Color.fromARGB(255, 255, 222, 125)
+                            : const Color.fromARGB(255, 104, 217, 195))),
       ),
     );
   }

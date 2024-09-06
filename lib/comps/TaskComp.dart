@@ -9,7 +9,7 @@ class TaskComp extends StatefulWidget {
   final double progress;
   final Function(BuildContext)? delTask;
 
-  TaskComp({
+  const TaskComp({
     super.key,
     required this.taskName,
     required this.category,
@@ -33,7 +33,7 @@ class _TaskCompState extends State<TaskComp> {
             builder: (context) {
               return AlertDialog(
                 backgroundColor: const Color.fromARGB(255, 18, 26, 39),
-                content: Container(
+                content: SizedBox(
                   height: 230,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,12 +59,13 @@ class _TaskCompState extends State<TaskComp> {
                           "votre progres: ${widget.progress.toStringAsFixed(0)}%",
                           style: TextStyle(
                               color: widget.progress < 25
-                                  ? Color.fromARGB(255, 246, 65, 108)
+                                  ? const Color.fromARGB(255, 246, 65, 108)
                                   : widget.progress < 50
-                                      ? Color.fromARGB(255, 255, 160, 45)
+                                      ? const Color.fromARGB(255, 255, 160, 45)
                                       : widget.progress < 75
-                                          ? Color.fromARGB(255, 255, 222, 125)
-                                          : Color.fromARGB(
+                                          ? const Color.fromARGB(
+                                              255, 255, 222, 125)
+                                          : const Color.fromARGB(
                                               255, 104, 217, 195))),
                     ],
                   ),
@@ -76,11 +77,11 @@ class _TaskCompState extends State<TaskComp> {
         child: Padding(
           padding: const EdgeInsets.only(top: 20, left: 40),
           child: Slidable(
-            endActionPane: ActionPane(motion: StretchMotion(), children: [
+            endActionPane: ActionPane(motion: const StretchMotion(), children: [
               SlidableAction(
                 onPressed: widget.delTask,
                 icon: Icons.delete,
-                backgroundColor: Color.fromARGB(255, 246, 65, 108),
+                backgroundColor: const Color.fromARGB(255, 246, 65, 108),
                 borderRadius: BorderRadius.circular(15),
               )
             ]),
@@ -102,7 +103,7 @@ class _TaskCompState extends State<TaskComp> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 200,
                               child: Text(
                                 widget.taskName,
@@ -114,7 +115,7 @@ class _TaskCompState extends State<TaskComp> {
                                     color: Color.fromARGB(255, 253, 253, 252)),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               width: 100,
                               child: Text(
                                 widget.category,
@@ -140,7 +141,7 @@ class _TaskCompState extends State<TaskComp> {
                             ),
                             Text(
                               '${widget.date.difference(DateTime.now()).inDays}  jours restants',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 13,
                                 color: Color.fromARGB(255, 188, 196, 207),
@@ -153,7 +154,7 @@ class _TaskCompState extends State<TaskComp> {
                   ),
                   Center(
                     child: Padding(
-                      padding: EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(top: 10),
                       child: SizedBox(
                           height: 10.0,
                           width: 300.0,
@@ -166,14 +167,16 @@ class _TaskCompState extends State<TaskComp> {
                                   widget.onProgressChanged(value);
                                 });
                               },
-                              inactiveColor: Color.fromARGB(255, 50, 60, 72),
+                              inactiveColor:
+                                  const Color.fromARGB(255, 50, 60, 72),
                               activeColor: widget.progress < 25
-                                  ? Color.fromARGB(255, 246, 65, 108)
+                                  ? const Color.fromARGB(255, 246, 65, 108)
                                   : widget.progress < 50
-                                      ? Color.fromARGB(255, 255, 160, 45)
+                                      ? const Color.fromARGB(255, 255, 160, 45)
                                       : widget.progress < 75
-                                          ? Color.fromARGB(255, 255, 222, 125)
-                                          : Color.fromARGB(
+                                          ? const Color.fromARGB(
+                                              255, 255, 222, 125)
+                                          : const Color.fromARGB(
                                               255, 104, 217, 195))),
                     ),
                   )

@@ -9,7 +9,7 @@ import 'package:productivity_app/pages/home.dart';
 import 'package:productivity_app/pages/weekBilan.dart';
 
 class Root extends StatefulWidget {
-  const Root({super.key});
+  Root({super.key});
 
   @override
   State<Root> createState() => _WelcomeState();
@@ -50,7 +50,7 @@ class _WelcomeState extends State<Root> {
 
   void _save() {
     setState(() {
-      db.ToDoList.add([_controller.text, _dropValue, _date, 0.0]);
+      db.ToDoList.add([_controller.text, _dropValue, _date, 0.0, false]);
     });
     Navigator.of(context).pop();
     _controller.clear();
@@ -87,23 +87,6 @@ class _WelcomeState extends State<Root> {
     db.UpdateData();
   }
 
-  void remove(int ind) {
-    final msg = SnackBar(
-      content: Text(
-        'vous devez laisser au moins 3 taches',
-      ),
-      duration: Duration(seconds: 3),
-    );
-    if (db.ToDoList.length == 3) {
-      ScaffoldMessenger.of(context).showSnackBar(msg);
-    } else {
-      setState(() {
-        db.ToDoList.removeAt(db.ToDoList.length - ind - 1);
-      });
-    }
-    db.UpdateData();
-  }
-
   void onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
@@ -114,7 +97,7 @@ class _WelcomeState extends State<Root> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 18, 26, 39),
+        backgroundColor: const Color.fromARGB(255, 18, 26, 39),
         body: Stack(
           children: [
             PageView(
@@ -139,32 +122,32 @@ class _WelcomeState extends State<Root> {
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: FloatingActionButton(
-            backgroundColor: Color.fromARGB(255, 34, 40, 49),
+            backgroundColor: const Color.fromARGB(255, 34, 40, 49),
             onPressed: createTask,
-            child: Icon(
+            child: const Icon(
               Icons.add,
               color: Color.fromARGB(255, 0, 184, 169),
             ),
           ),
         ),
         bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: GNav(
             gap: 8,
-            color: Color.fromARGB(255, 252, 252, 253),
-            activeColor: Color.fromARGB(255, 0, 184, 169),
-            tabBackgroundColor: Color.fromARGB(255, 34, 40, 49),
-            padding: EdgeInsets.all(16),
+            color: const Color.fromARGB(255, 252, 252, 253),
+            activeColor: const Color.fromARGB(255, 0, 184, 169),
+            tabBackgroundColor: const Color.fromARGB(255, 34, 40, 49),
+            padding: const EdgeInsets.all(16),
             selectedIndex: _selectedIndex,
             onTabChange: (index) {
               setState(() {
                 _selectedIndex = index;
                 _Pagecontroller.animateToPage(index,
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     curve: Curves.easeIn);
               });
             },
-            tabs: [
+            tabs: const [
               GButton(
                 icon: Icons.home,
                 text: 'principale',

@@ -76,10 +76,10 @@ class _WeekState extends State<Week> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 18, 26, 39),
+      backgroundColor: const Color.fromARGB(255, 18, 26, 39),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Padding(
-          padding: const EdgeInsets.only(top: 80, left: 30),
+          padding: EdgeInsets.only(top: 80, left: 30),
           child: Text(
             'Bilan de la semaine',
             style: TextStyle(
@@ -96,7 +96,7 @@ class _WeekState extends State<Week> {
               itemCount: 7,
               itemBuilder: (context, i) {
                 return Padding(
-                  padding: const EdgeInsets.only(left: 30, top: 5),
+                  padding: const EdgeInsets.only(left: 30, top: 20),
                   child: DayTotal(date: begOfWeek().add(Duration(days: i))),
                 );
               },

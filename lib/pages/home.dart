@@ -5,7 +5,7 @@ import 'package:productivity_app/comps/TaskComp.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void remove(int ind) {
-    final msg = SnackBar(
+    const msg = SnackBar(
       content: Text(
         'vous devez laisser au moins 3 taches',
       ),
@@ -68,12 +68,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 18, 26, 39),
+      backgroundColor: const Color.fromARGB(255, 18, 26, 39),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: const EdgeInsets.only(top: 70, left: 40),
+            padding: EdgeInsets.only(top: 70, left: 40),
             child: Text(
               'Les taches recamment\najoutees',
               style: TextStyle(
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.only(top: 5),
+              padding: const EdgeInsets.only(top: 5),
               itemCount: db.ToDoList.length,
               itemBuilder: (context, index) {
                 return AnimatedContainer(
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 60, top: 10),
+            padding: EdgeInsets.only(bottom: 60, top: 10),
             child: ProgressTracker(),
           )
         ],

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:productivity_app/dataBase/TaskList.dart';
+import 'package:productivity_app/pages/root.dart';
 import 'package:productivity_app/pages/welcome.dart';
 
 class Loading extends StatefulWidget {
@@ -10,16 +13,23 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
+  DataBase db = DataBase();
+  final _myBase = Hive.box("TaskBase");
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) => Welcome(),
-      ));
+    Future.delayed(const Duration(seconds: 7), () {
+      if (_myBase.get("TODOLIST") == null) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => const Welcome(),
+        ));
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => Root(),
+        ));
+      }
     });
   }
 
@@ -30,14 +40,15 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
-          color: Color.fromARGB(225, 248, 243, 212),
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 18, 26, 39),
         ),
         child: Image.asset('lib/images/LOGO.png'),
       ),

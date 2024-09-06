@@ -92,12 +92,12 @@ flutter:
         #- asset: fonts/OpenSans-VariableFont_wdth,wght.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-    - family: Panton
+    - family: Inter
       fonts:
-        - asset: fonts/Panton-Trial-Regular.ttf
-        - asset: fonts/Panton-Trial-Bold.ttf
+        - asset: fonts/Inter-Regular.ttf
+        - asset: fonts/Inter-Bold.ttf
           weight: 700
-        - asset: fonts/Panton-Trial-Light.ttf
+        - asset: fonts/Inter-Light-BETA.ttf
           weight: 300   
   #
   # For details regarding fonts from package dependencies,

@@ -4,7 +4,7 @@ import 'package:productivity_app/dataBase/TaskList.dart';
 
 class DayTotal extends StatefulWidget {
   final DateTime date;
-  DayTotal({super.key, required this.date});
+  const DayTotal({super.key, required this.date});
 
   @override
   State<DayTotal> createState() => _DayTotalState();
@@ -73,7 +73,7 @@ class _DayTotalState extends State<DayTotal> {
       children: [
         Text(
           dateToWeek(widget.date),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w300,
           ),
@@ -86,7 +86,7 @@ class _DayTotalState extends State<DayTotal> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: Color.fromARGB(255, 50, 60, 72),
+                color: const Color.fromARGB(255, 50, 60, 72),
               ),
               width: 350,
               height: 30,
@@ -95,12 +95,12 @@ class _DayTotalState extends State<DayTotal> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: dayProgress(widget.date) < 25
-                    ? Color.fromARGB(255, 246, 65, 108)
+                    ? const Color.fromARGB(255, 246, 65, 108)
                     : dayProgress(widget.date) < 50
-                        ? Color.fromARGB(255, 255, 160, 45)
+                        ? const Color.fromARGB(255, 255, 160, 45)
                         : dayProgress(widget.date) < 75
-                            ? Color.fromARGB(255, 255, 222, 125)
-                            : Color.fromARGB(255, 104, 217, 195),
+                            ? const Color.fromARGB(255, 255, 222, 125)
+                            : const Color.fromARGB(255, 104, 217, 195),
               ),
               width: (dayProgress(widget.date) / 100) * 350,
               height: 30,

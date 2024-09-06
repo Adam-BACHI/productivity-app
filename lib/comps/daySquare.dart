@@ -51,7 +51,7 @@ class _DaySquareState extends State<DaySquare> {
       height: 20,
       decoration: BoxDecoration(
           color: dayProgress(widget.date) < 10
-              ? Color.fromARGB(25, 104, 217, 195)
+              ? const Color.fromARGB(25, 104, 217, 195)
               : Color.fromARGB((dayProgress(widget.date) * 255 / 100).toInt(),
                   104, 217, 195),
           borderRadius: BorderRadius.circular(5)),

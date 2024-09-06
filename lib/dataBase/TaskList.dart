@@ -9,9 +9,9 @@ class DataBase {
 
   void DefaultData() {
     ToDoList = [
-      ["exercie", "health", DateTime.now(), 0.0],
-      ["drink water", "health", DateTime.now(), 0.0],
-      ["revise", "study", DateTime.now(), 0.0],
+      ["exercie", "health", DateTime.now(), 0.0, false],
+      ["drink water", "health", DateTime.now(), 0.0, false],
+      ["revise", "study", DateTime.now(), 0.0, false],
     ];
     categories = [
       'categorie',

@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:productivity_app/dataBase/TaskList.dart';
 
 class ProgressTracker extends StatefulWidget {
-  const ProgressTracker({super.key});
+  ProgressTracker({super.key});
 
   @override
   State<ProgressTracker> createState() => _ProgressTrackerState();
@@ -73,9 +73,10 @@ class _ProgressTrackerState extends State<ProgressTracker> {
     return cpt == 0 ? 0.0 : sum / cpt;
   }
 
+  @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
+      child: SizedBox(
         width: 336,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,17 +90,17 @@ class _ProgressTrackerState extends State<ProgressTracker> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.only(top: 50),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
+                    onTap: displayPrev,
                     child: const Icon(
                       Icons.arrow_back_ios_rounded,
                       color: Color.fromARGB(255, 252, 252, 253),
                       size: 45,
                     ),
-                    onTap: displayPrev,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -109,36 +110,39 @@ class _ProgressTrackerState extends State<ProgressTracker> {
                         style: TextStyle(
                             fontSize: 30,
                             color: catPercent() < 25
-                                ? Color.fromARGB(255, 246, 65, 108)
+                                ? const Color.fromARGB(255, 246, 65, 108)
                                 : catPercent() < 50
-                                    ? Color.fromARGB(255, 255, 160, 45)
+                                    ? const Color.fromARGB(255, 255, 160, 45)
                                     : catPercent() < 75
-                                        ? Color.fromARGB(255, 255, 222, 125)
-                                        : Color.fromARGB(255, 104, 217, 195),
+                                        ? const Color.fromARGB(
+                                            255, 255, 222, 125)
+                                        : const Color.fromARGB(
+                                            255, 104, 217, 195),
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        '${db.categories[CatTrack]}',
+                        db.categories[CatTrack],
                         style: TextStyle(
                           fontSize: 15,
                           color: catPercent() < 25
-                              ? Color.fromARGB(255, 246, 65, 108)
+                              ? const Color.fromARGB(255, 246, 65, 108)
                               : catPercent() < 50
-                                  ? Color.fromARGB(255, 255, 160, 45)
+                                  ? const Color.fromARGB(255, 255, 160, 45)
                                   : catPercent() < 75
-                                      ? Color.fromARGB(255, 255, 222, 125)
-                                      : Color.fromARGB(255, 104, 217, 195),
+                                      ? const Color.fromARGB(255, 255, 222, 125)
+                                      : const Color.fromARGB(
+                                          255, 104, 217, 195),
                         ),
                       ),
                     ],
                   ),
                   GestureDetector(
-                    child: Icon(
+                    onTap: displayNext,
+                    child: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Color.fromARGB(255, 252, 252, 253),
                       size: 45,
                     ),
-                    onTap: displayNext,
                   )
                 ],
               ),

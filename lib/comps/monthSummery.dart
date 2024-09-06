@@ -32,6 +32,7 @@ class _MonthSummeryState extends State<MonthSummery> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 80, left: 50, right: 50, bottom: 20),
@@ -51,7 +52,7 @@ class _MonthSummeryState extends State<MonthSummery> {
                             2
                         : 49,
                 scrollDirection: Axis.horizontal,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 7),
                 itemBuilder: (context, i) {
                   return AnimationConfiguration.staggeredGrid(

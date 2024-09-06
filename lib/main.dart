@@ -19,11 +19,11 @@ class ProdApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Loading(),
+      home: const Loading(),
       theme: ThemeData(
           primarySwatch: Colors.teal,
           brightness: Brightness.dark,
-          fontFamily: "Panton"),
+          fontFamily: "Inter"),
     );
   }
 }

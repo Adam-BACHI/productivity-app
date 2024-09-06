@@ -9,7 +9,7 @@ class NewTask extends StatefulWidget {
   final ValueChanged<String> onDropValueChanged;
   final ValueChanged onDateSelection;
 
-  NewTask({
+  const NewTask({
     super.key,
     required this.controller,
     required this.save,
@@ -95,8 +95,8 @@ class _NewTaskState extends State<NewTask> {
                   },
                   items: db.categories.map((cat) {
                     return DropdownMenuItem(
-                      child: Text(cat),
                       value: cat,
+                      child: Text(cat),
                     );
                   }).toList()),
             ),
