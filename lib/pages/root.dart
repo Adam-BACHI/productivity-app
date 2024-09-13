@@ -46,11 +46,18 @@ class _WelcomeState extends State<Root> {
   }
 
   String _dropValue = "categorie";
-  DateTime _date = DateTime.now();
+  TimeOfDay _time = TimeOfDay.now();
 
   void _save() {
     setState(() {
-      db.ToDoList.add([_controller.text, _dropValue, _date, 0.0, false]);
+      db.ToDoList.add([
+        _controller.text,
+        _dropValue,
+        "${_time.hour}:${_time.minute}",
+        0.0,
+        false,
+        DateTime.now()
+      ]);
     });
     Navigator.of(context).pop();
     _controller.clear();
@@ -76,9 +83,9 @@ class _WelcomeState extends State<Root> {
               _dropValue = newValue;
             });
           },
-          onDateSelection: (date) {
+          onTimeSelection: (Time) {
             setState(() {
-              _date = date;
+              _time = Time;
             });
           },
         );
@@ -105,6 +112,7 @@ class _WelcomeState extends State<Root> {
               onPageChanged: onPageChanged,
               children: [
                 // DIFFERENT PAGES
+
                 HomePage(),
                 TaskCat(),
                 Week(),

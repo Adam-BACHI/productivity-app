@@ -34,9 +34,9 @@ class _DaySquareState extends State<DaySquare> {
     double cpt = 0;
 
     for (var i = 0; i < db.ToDoList.length; i++) {
-      if (db.ToDoList[i][2].day == day.day &&
-          db.ToDoList[i][2].month == day.month &&
-          db.ToDoList[i][2].year == day.year) {
+      if (db.ToDoList[i][5].day == day.day &&
+          db.ToDoList[i][5].month == day.month &&
+          db.ToDoList[i][5].year == day.year) {
         sum = sum + db.ToDoList[i][3];
         cpt++;
       }

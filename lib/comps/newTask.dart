@@ -7,7 +7,7 @@ class NewTask extends StatefulWidget {
   final VoidCallback save;
   final VoidCallback cancel;
   final ValueChanged<String> onDropValueChanged;
-  final ValueChanged onDateSelection;
+  final ValueChanged onTimeSelection;
 
   const NewTask({
     super.key,
@@ -15,7 +15,7 @@ class NewTask extends StatefulWidget {
     required this.save,
     required this.cancel,
     required this.onDropValueChanged,
-    required this.onDateSelection,
+    required this.onTimeSelection,
   });
 
   @override
@@ -43,19 +43,15 @@ class _NewTaskState extends State<NewTask> {
 
   String dropValue = 'categorie';
 
-  DateTime date = DateTime.now();
+  TimeOfDay time = TimeOfDay.now();
 
-  void _datePick() {
-    showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime.now(),
-            lastDate: DateTime(2026))
-        .then((selectedDate) {
+  void _timePick() {
+    showTimePicker(context: context, initialTime: TimeOfDay.now())
+        .then((selectedTime) {
       setState(() {
-        date = selectedDate!;
+        time = selectedTime!;
       });
-      widget.onDateSelection(date);
+      widget.onTimeSelection(time);
     });
   } // Set this to a value that exists in the DropdownMenuItem list
 
@@ -104,14 +100,14 @@ class _NewTaskState extends State<NewTask> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 MaterialButton(
-                  onPressed: _datePick,
+                  onPressed: _timePick,
                   child: const Text(
                     "choose date",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
                 Text(
-                  '${date.day} - ${date.month} - ${date.year}',
+                  time.format(context).toString(),
                   style: const TextStyle(fontSize: 15, color: Colors.grey),
                 )
               ],

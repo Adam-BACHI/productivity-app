@@ -242,7 +242,7 @@ class _TaskCatState extends State<TaskCat> {
 
                 String Category = filteredTasks[index][1];
 
-                DateTime Date = filteredTasks[index][2];
+                String Time = filteredTasks[index][2];
 
                 double Progress = filteredTasks[index][3];
 
@@ -256,12 +256,14 @@ class _TaskCatState extends State<TaskCat> {
                     child: TaskComp(
                       taskName: TaskName,
                       category: Category,
-                      date: Date,
+                      time: Time,
                       progress: Progress,
                       onProgressChanged: (pro) {
                         progressChanged(pro, mainIndex);
                       },
                       delTask: (context) => remove(mainIndex),
+                      hideTask: (context) {},
+                      hideOption: false,
                     ));
               },
             ),

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class DataBase {
@@ -9,9 +10,30 @@ class DataBase {
 
   void DefaultData() {
     ToDoList = [
-      ["exercie", "health", DateTime.now(), 0.0, false],
-      ["drink water", "health", DateTime.now(), 0.0, false],
-      ["revise", "study", DateTime.now(), 0.0, false],
+      [
+        "exercie",
+        "health",
+        "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}",
+        0.0,
+        false,
+        DateTime.now()
+      ],
+      [
+        "drink water",
+        "health",
+        "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}",
+        0.0,
+        false,
+        DateTime.now()
+      ],
+      [
+        "revise",
+        "study",
+        "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}",
+        0.0,
+        false,
+        DateTime.now()
+      ],
     ];
     categories = [
       'categorie',
