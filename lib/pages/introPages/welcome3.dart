@@ -27,6 +27,9 @@ class Welcome3 extends StatelessWidget {
                 color: Color.fromARGB(255, 253, 253, 252)),
           ),
         ),
+        const SizedBox(
+          height: 15,
+        ),
         const Center(
           child: Text(
             'Lorem ipsum Lorem ipsumLorem ipsumLorem\n                          ipsumLorem ipsum',

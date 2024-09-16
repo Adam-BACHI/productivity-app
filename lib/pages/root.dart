@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -7,6 +8,7 @@ import 'package:productivity_app/pages/TaskCategories.dart';
 import 'package:productivity_app/pages/heatMap.dart';
 import 'package:productivity_app/pages/home.dart';
 import 'package:productivity_app/pages/weekBilan.dart';
+import 'dart:async';
 
 class Root extends StatefulWidget {
   Root({super.key});
@@ -18,6 +20,7 @@ class Root extends StatefulWidget {
 class _WelcomeState extends State<Root> {
   DataBase db = DataBase();
   final _myBase = Hive.box("TaskBase");
+  Timer? _timer;
 
   @override
   void initState() {
@@ -32,6 +35,15 @@ class _WelcomeState extends State<Root> {
     db.UpdateData();
 
     super.initState();
+    _timer = Timer.periodic(Duration(minutes: 5), (Timer timer) {
+      checkForNotifications();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   PageController _Pagecontroller = PageController();
@@ -99,6 +111,71 @@ class _WelcomeState extends State<Root> {
       _selectedIndex = index;
     });
     db.UpdateData();
+  }
+
+  triggerNot(int j) {
+    AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: 10,
+            channelKey: "Basic_channel",
+            title: "You have a task to complete!",
+            body: "${db.ToDoList[j][0]}, by ${db.ToDoList[j][2]}"));
+  }
+
+  TimeOfDay covertToTime(String time) {
+    TimeOfDay result;
+    int hour = 0;
+    int minute = 0;
+    int i = 0;
+
+    while ((time[i] != ":")) {
+      hour = hour * 10 + int.parse(time[i]);
+      i++;
+    }
+
+    i++;
+
+    while (i < time.length) {
+      minute = minute * 10 + int.parse(time[i]);
+      i++;
+    }
+
+    result = TimeOfDay(hour: hour, minute: minute);
+
+    return result;
+  }
+
+  DateTime convertToDate(TimeOfDay time) {
+    final now = DateTime.now();
+    DateTime result =
+        DateTime(now.year, now.month, now.day, time.hour, time.minute);
+
+    return result;
+  }
+
+  checkForNotifications() {
+    int i = 0;
+    DateTime checkTime;
+
+    while ((i < db.ToDoList.length) &&
+        (db.ToDoList[i][5].day != DateTime.now().day ||
+            db.ToDoList[i][5].month != DateTime.now().month ||
+            db.ToDoList[i][5].year != DateTime.now().year)) {
+      i++;
+    }
+
+    while (i < db.ToDoList.length) {
+      checkTime = convertToDate(covertToTime(db.ToDoList[i][2]));
+
+      final diff = checkTime.difference(DateTime.now());
+
+      if ((diff.inMinutes > 0) &&
+          (diff.inMinutes < 15) &&
+          (db.ToDoList[i][3] != 100)) {
+        triggerNot(i);
+      }
+      i++;
+    }
   }
 
   @override

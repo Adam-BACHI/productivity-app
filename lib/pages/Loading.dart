@@ -20,7 +20,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(const Duration(seconds: 7), () {
+    Future.delayed(const Duration(seconds: 20), () {
       if (_myBase.get("TODOLIST") == null) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => const Welcome(),
@@ -50,7 +50,9 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 18, 26, 39),
         ),
-        child: Image.asset('lib/images/LOGO.png'),
+        child: Stack(children: [
+          Image.asset('lib/images/LOGO.png'),
+        ]),
       ),
     ));
   }
