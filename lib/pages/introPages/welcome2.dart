@@ -20,7 +20,7 @@ class Welcome2 extends StatelessWidget {
         ),
         const Center(
           child: Text(
-            'Obtenez un plan personnalise!',
+            'Follow your progress!',
             style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w900,
@@ -32,10 +32,11 @@ class Welcome2 extends StatelessWidget {
         ),
         const Center(
           child: Text(
-            'Lorem ipsum Lorem ipsumLorem ipsumLorem\n                          ipsumLorem ipsum',
+            'Lorem ipsum Lorem ipsumLorem ipsumLorem\nipsumLorem ipsum',
             style: TextStyle(
                 fontWeight: FontWeight.w400,
                 color: Color.fromARGB(255, 253, 253, 252)),
+            textAlign: TextAlign.center,
           ),
         ),
       ],

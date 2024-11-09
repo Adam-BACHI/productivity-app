@@ -79,7 +79,7 @@ class _WelcomeState extends State<Welcome> {
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(top: 680),
-                    child: introButton(title: 'Commencer'),
+                    child: introButton(title: 'Start!'),
                   ),
                 )
               : GestureDetector(
@@ -91,7 +91,7 @@ class _WelcomeState extends State<Welcome> {
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(top: 680),
-                    child: introButton(title: 'Suivant'),
+                    child: introButton(title: 'Next'),
                   ),
                 ),
 

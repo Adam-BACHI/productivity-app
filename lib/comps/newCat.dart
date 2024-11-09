@@ -41,7 +41,7 @@ class _NewCatState extends State<NewCat> {
                         MaterialButton(
                           onPressed: widget.save,
                           color: const Color.fromARGB(255, 0, 184, 169),
-                          child: const Text('ajouter'),
+                          child: const Text('add'),
                         ),
                         const SizedBox(
                           width: 8,
@@ -49,7 +49,7 @@ class _NewCatState extends State<NewCat> {
                         MaterialButton(
                           onPressed: widget.cancel,
                           color: const Color.fromARGB(255, 0, 184, 169),
-                          child: const Text('annuler'),
+                          child: const Text('cancel'),
                         )
                       ],
                     ),

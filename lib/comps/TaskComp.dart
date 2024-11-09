@@ -61,7 +61,7 @@ class _TaskCompState extends State<TaskComp> {
                           widget.time,
                         ),
                         Text(
-                            "votre progres: ${widget.progress.toStringAsFixed(0)}%",
+                            "your progress: ${widget.progress.toStringAsFixed(0)}%",
                             style: TextStyle(
                                 color: widget.progress < 25
                                     ? const Color.fromARGB(255, 246, 65, 108)
@@ -226,7 +226,7 @@ class _TaskCompState extends State<TaskComp> {
                           widget.time,
                         ),
                         Text(
-                            "votre progres: ${widget.progress.toStringAsFixed(0)}%",
+                            "your progress: ${widget.progress.toStringAsFixed(0)}%",
                             style: TextStyle(
                                 color: widget.progress < 25
                                     ? const Color.fromARGB(255, 246, 65, 108)

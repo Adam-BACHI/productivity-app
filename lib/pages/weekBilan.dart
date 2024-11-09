@@ -32,19 +32,19 @@ class _WeekState extends State<Week> {
   String dateToWeek(DateTime date) {
     switch (date.weekday) {
       case 1:
-        return "lundi";
+        return "monday";
       case 2:
-        return "mardi";
+        return "tuesday";
       case 3:
-        return "mercredi";
+        return "wednesday";
       case 4:
-        return "jeudi";
+        return "thursday";
       case 5:
-        return "vendredi";
+        return "friday";
       case 6:
-        return "samedi";
+        return "saturday";
       case 7:
-        return "dimanche";
+        return "sunday";
 
       default:
         return "";
@@ -57,8 +57,7 @@ class _WeekState extends State<Week> {
     int i = 0;
     firstSun = DateTime.now();
 
-    while (
-        dateToWeek(DateTime.now().subtract(Duration(days: i))) != "dimanche") {
+    while (dateToWeek(DateTime.now().subtract(Duration(days: i))) != "sunday") {
       i++;
       firstSun = DateTime.now().subtract(Duration(days: i));
     }
@@ -81,7 +80,7 @@ class _WeekState extends State<Week> {
         const Padding(
           padding: EdgeInsets.only(top: 80, left: 30),
           child: Text(
-            'Bilan de la semaine',
+            'Week summary',
             style: TextStyle(
               fontSize: 26,
               color: Color.fromARGB(255, 252, 252, 253),
@@ -96,7 +95,7 @@ class _WeekState extends State<Week> {
               itemCount: 7,
               itemBuilder: (context, i) {
                 return Padding(
-                  padding: const EdgeInsets.only(left: 30, top: 20),
+                  padding: const EdgeInsets.only(left: 30, top: 10),
                   child: DayTotal(date: begOfWeek().add(Duration(days: i))),
                 );
               },

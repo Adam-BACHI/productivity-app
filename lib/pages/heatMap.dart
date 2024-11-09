@@ -49,11 +49,17 @@ class _HeatMapState extends State<HeatMapPage> {
   void remove(int ind) {
     const msg = SnackBar(
       content: Text(
-        'vous devez laisser au moins 3 taches',
+        'you should leave at least 3 tasks',
       ),
       duration: Duration(seconds: 3),
     );
-    if (db.ToDoList.length == 3) {
+    int cpt = 0;
+    for (var i = 0; i < db.ToDoList.length; i++) {
+      if (db.ToDoList[i][4] == false) {
+        cpt++;
+      }
+    }
+    if ((db.ToDoList.length <= 3) || (cpt <= 3)) {
       ScaffoldMessenger.of(context).showSnackBar(msg);
     } else {
       setState(() {
@@ -66,7 +72,7 @@ class _HeatMapState extends State<HeatMapPage> {
   void hide(int ind) {
     const msg = SnackBar(
       content: Text(
-        'vous devez laisser au moins 3 taches',
+        'you should leave at least 3 tasks',
       ),
       duration: Duration(seconds: 3),
     );

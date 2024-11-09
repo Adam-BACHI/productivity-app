@@ -32,19 +32,19 @@ class _DayTotalState extends State<DayTotal> {
   String dateToWeek(DateTime date) {
     switch (date.weekday) {
       case 1:
-        return "lundi";
+        return "monday";
       case 2:
-        return "mardi";
+        return "tuesday";
       case 3:
-        return "mercredi";
+        return "wednesday";
       case 4:
-        return "jeudi";
+        return "thursday";
       case 5:
-        return "vendredi";
+        return "friday";
       case 6:
-        return "samedi";
+        return "saturday";
       case 7:
-        return "dimanche";
+        return "sunday";
 
       default:
         return "";

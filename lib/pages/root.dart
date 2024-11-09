@@ -57,7 +57,7 @@ class _WelcomeState extends State<Root> {
     db.UpdateData();
   }
 
-  String _dropValue = "categorie";
+  String _dropValue = "unclassified";
   TimeOfDay _time = TimeOfDay.now();
 
   void _save() {
@@ -235,19 +235,19 @@ class _WelcomeState extends State<Root> {
             tabs: const [
               GButton(
                 icon: Icons.home,
-                text: 'principale',
+                text: 'main',
               ),
               GButton(
                 icon: Icons.folder,
-                text: 'toutes les taches',
+                text: 'all tasks',
               ),
               GButton(
                 icon: Icons.date_range_sharp,
-                text: 'Bilan de semaine',
+                text: 'week summary',
               ),
               GButton(
                 icon: Icons.grid_view_rounded,
-                text: 'Heatmap',
+                text: 'heatmap',
               ),
             ],
           ),

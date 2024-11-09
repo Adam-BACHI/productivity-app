@@ -82,7 +82,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Votre progrès',
+              'Your progress',
               style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w700,

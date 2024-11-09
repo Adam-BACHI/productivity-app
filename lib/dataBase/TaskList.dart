@@ -11,24 +11,24 @@ class DataBase {
   void DefaultData() {
     ToDoList = [
       [
-        "exercie",
-        "health",
+        "follow @cqylm",
+        "unclassified",
         "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}",
         0.0,
         false,
         DateTime.now()
       ],
       [
-        "drink water",
-        "health",
+        "share the app link in your story",
+        "unclassified",
         "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}",
         0.0,
         false,
         DateTime.now()
       ],
       [
-        "revise",
-        "study",
+        "fill up the survey",
+        "unclassified",
         "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}",
         0.0,
         false,
@@ -36,7 +36,7 @@ class DataBase {
       ],
     ];
     categories = [
-      'categorie',
+      'unclassified',
       'study',
       'health',
     ];

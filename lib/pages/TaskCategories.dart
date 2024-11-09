@@ -52,7 +52,7 @@ class _TaskCatState extends State<TaskCat> {
   void _saveCat() {
     const msg = SnackBar(
       content: Text(
-        'cette categorie existe deja',
+        'this category already exists',
       ),
       duration: Duration(seconds: 3),
     );
@@ -82,10 +82,11 @@ class _TaskCatState extends State<TaskCat> {
   void remove(int ind) {
     const msg = SnackBar(
       content: Text(
-        'vous devez laisser au moins 3 taches',
+        'you should leave at least 3 tasks',
       ),
       duration: Duration(seconds: 3),
     );
+
     if (db.ToDoList.length == 3) {
       ScaffoldMessenger.of(context).showSnackBar(msg);
     } else {
@@ -100,21 +101,31 @@ class _TaskCatState extends State<TaskCat> {
     int i = 0;
     const msg = SnackBar(
       content: Text(
-        'vous ne pouvez pas supprimer une categorie sans suprimer toutes les taches de cette derniere',
+        'you can\'t remove a categorie unless you delete tasks within it',
       ),
       duration: Duration(seconds: 5),
     );
-    while (
-        (i < db.ToDoList.length) && (db.ToDoList[i][1] != db.categories[ind])) {
-      i++;
-    }
+    const msg2 = SnackBar(
+      content: Text(
+        'you can\'t remove this category',
+      ),
+      duration: Duration(seconds: 5),
+    );
+    if (ind != 0) {
+      while ((i < db.ToDoList.length) &&
+          (db.ToDoList[i][1] != db.categories[ind])) {
+        i++;
+      }
 
-    if (i == db.ToDoList.length) {
-      setState(() {
-        db.categories.removeAt(ind);
-      });
+      if (i == db.ToDoList.length) {
+        setState(() {
+          db.categories.removeAt(ind);
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(msg);
+      }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(msg);
+      ScaffoldMessenger.of(context).showSnackBar(msg2);
     }
   }
 
@@ -226,7 +237,7 @@ class _TaskCatState extends State<TaskCat> {
             padding: const EdgeInsets.only(top: 15),
             child: Center(
                 child: Text(
-              'Votre progres est de: ${ProgressCount().toStringAsFixed(0)}%',
+              'your progress is: ${ProgressCount().toStringAsFixed(0)}%',
               style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,

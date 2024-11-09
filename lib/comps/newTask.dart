@@ -41,7 +41,7 @@ class _NewTaskState extends State<NewTask> {
     super.initState();
   }
 
-  String dropValue = 'categorie';
+  String dropValue = 'unclassified';
 
   TimeOfDay time = TimeOfDay.now();
 
@@ -102,7 +102,7 @@ class _NewTaskState extends State<NewTask> {
                 MaterialButton(
                   onPressed: _timePick,
                   child: const Text(
-                    "choose date",
+                    "choose time",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -120,7 +120,7 @@ class _NewTaskState extends State<NewTask> {
                   MaterialButton(
                     onPressed: widget.save,
                     color: const Color.fromARGB(255, 0, 184, 169),
-                    child: const Text('ajouter'),
+                    child: const Text('add'),
                   ),
                   const SizedBox(
                     width: 8,
@@ -128,7 +128,7 @@ class _NewTaskState extends State<NewTask> {
                   MaterialButton(
                     onPressed: widget.cancel,
                     color: const Color.fromARGB(255, 0, 184, 169),
-                    child: const Text('annuler'),
+                    child: const Text('cancel'),
                   )
                 ],
               ),
