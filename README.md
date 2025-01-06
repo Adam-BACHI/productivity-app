@@ -2,18 +2,10 @@
 
 A new Flutter project.
 
-## Getting Started
+An app gathering all features to make your productivity at its pick!
+with different pages, presenting different modes of visualising, organizing, and manipulating
+your daily tasks, this project provides an unfathomably useful tool for those who need it!
 
-This project is a starting point for a Flutter application.
+TRY IT YOURSELF AND SEE!
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-
-this is new
+more info will be submitted shortly...
